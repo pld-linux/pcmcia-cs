@@ -1,19 +1,23 @@
+%define	_rel	5
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.30
-Release:	4
+Release:	%{_rel}
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
+Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
 Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
+Patch2:		%{name}-wavelan2.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
-BuildRequires:	kernel-source
+%{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
+BuildRequires:	%{kgcc_package}
 PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -42,13 +46,31 @@ pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart.
 Je¶li posiadasz laptopa albo te¿ Twój system wykorzystuje karty
 PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 
+%package -n kernel-pcmcia-wavelan2
+Summary:	Avaya Wireless PC Card - Drivers
+Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Prereq:		/sbin/depmod
+%{!?_without_dist_kernel:%requires_releq_kernel_up}
+
+%description -n kernel-pcmcia-wavelan2
+wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
+
+%description -n kernel-pcmcia-wavelan2 -l pl
+Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
+Silver oraz Gold).
+
 %prep
 %setup -q
 #%patch0 -p1
 %patch1 -p1
+%ifarch %{ix86}
+tar xzvf %{SOURCE4}
+%patch2 -p1
+%endif
 
 %build
-
 ./Configure \
 	--noprompt \
 	--trust \
@@ -63,7 +85,7 @@ PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
 	LDFLAGS="%{rpmldflags}" \
-	CC="%{__cc}" \
+	CC="%{kgcc}" \
 	CONFIG_PCMCIA=1
 
 %install
@@ -72,6 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 
 %{__make} install \
+	MODDIR=/lib/modules/%{_kernel_ver} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	CONFIG_PCMCIA=1 \
 
@@ -83,6 +106,10 @@ install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 
 gzip -9nf SUPPORTED.CARDS CHANGES COPYING README{,-2.4} LICENSE \
 	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
+
+%ifarch %{ix86}
+gzip -9nf *.wavelan2_cs
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -103,6 +130,12 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del pcmcia
 fi
 
+%post   -n kernel-pcmcia-wavelan2
+/sbin/depmod -a
+
+%postun -n kernel-pcmcia-wavelan2
+/sbin/depmod -a
+
 %files
 %defattr(644,root,root,755)
 %doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz README.gz README-2.4.gz
@@ -119,6 +152,7 @@ fi
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
 %attr(754,root,root) %{_sysconfdir}/pcmcia/memory
@@ -137,3 +171,10 @@ fi
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+
+%ifarch %{ix86}
+%files -n kernel-pcmcia-wavelan2
+%defattr(644,root,root,755)
+%doc *wavelan2*
+/lib/modules/%{_kernel_ver}/pcmcia/*
+%endif
