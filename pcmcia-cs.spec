@@ -173,10 +173,20 @@ gzip -9nf SUPPORTED.CARDS CHANGES COPYING README LICENSE \
 rm -rf $RPM_BUILD_ROOT
 
 %post
-NAME=pcmcia; DESC="pcmcia cardbus daemon"; %chkconfig_add
+chkconfig --add pcmcia
+if [ -f /var/lock/subsys/pcmcia ]; then
+	/etc/rc.d/init.d/pcmcia restart 2> /dev/null
+else
+	echo "Run \"/etc/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
+fi
 
 %preun
-NAME=pcmcia; %chkconfig_del
+if [ "$1" = "0" ]; then
+	if [ -f /var/state/run/pcmcia ]; then
+		/etc/rc.d/init.d/pcmcia stop 2> /dev/null
+	fi
+	/sbin/chkconfig --del pcmcia
+fi
 
 %files
 %defattr(644,root,root,755)
