@@ -4,7 +4,7 @@ Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.2.3
+Version:	3.2.4
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
@@ -19,7 +19,8 @@ Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
 Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
-Patch5:		http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
+# based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
+Patch5:		%{name}-orinoco.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_dist_kernel:Requires:     kernel-pcmcia-cs}
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
@@ -110,7 +111,7 @@ tar xzvf %{SOURCE4}
 tar xzvf %{SOURCE5}
 %patch3 -p1
 %patch4 -p1
-%patch5	-p2
+%patch5	-p1
 
 %build
 ./Configure \
