@@ -152,7 +152,9 @@ fi
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
+%ifarch %{ix86}
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
+%endif
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
 %attr(754,root,root) %{_sysconfdir}/pcmcia/memory
