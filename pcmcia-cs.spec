@@ -1,58 +1,57 @@
-Summary: 	PCMCIA card services.
+Summary:	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
 Version:	3.1.13
 Release:	1
 Group:		Utilities/System
-Group(pl):	Narzêdzie/System
+Group(pl):	Narzêdzia/System
 Copyright:	MPL (Mozilla Public License)
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
-Requires:	xforms
-BuildPrereq:	xforms-static, kernel-source
-BuildPrereq:	xforms-devel
-BuildPrereq:	kernel-source
+BuildRequires:	kernel-source
+BuildRequires:	xforms-static
+BuildRequires:	xforms-devel
 Prereq:		chkconfig
-BuildRoot:	/tmp/%{name}-%{version}-root
-Source0: 	ftp://csb.stanford.edu/pub/pcmcia/pcmcia-cs-%{version}.tar.gz
-Source1: 	pcmcia-cs-network.script
-Source2: 	pcmcia.sysconfig
+BuildRoot:	/tmp/%{name}-%{version}-root-%(id -u -n) -u -n)
+Source0:	ftp://csb.stanford.edu/pub/pcmcia/%{name}-%{version}.tar.gz
+Source1:	pcmcia-cs-network.script
+Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 
 %description
-The pcmcia-cs package adds PCMCIA cards handling support for your PLD-Linux 
-system and contains of a card manager daemon and some utilities. PCMCIA 
-daemon can respond to card insertion and removal events by loading and unloading
-proper drivers on demand (with hot swap support), so that the cards can be safely 
-inserted and ejected at any time. 
-
-This package does not contain kernel modules (ie. socket and card drivers) 
-that come with another package that must be installed for full PCMCIA
-support.
-
-If you own a laptop or your system uses PCMCIA cards this package is a must.
+The pcmcia-cs package adds PCMCIA cards handling support for your PLD-Linux
+ystem and contains of a card manager daemon and some utilities. PCMCIA
+daemon can respond to card insertion and removal events by loading and
+unloading proper drivers on demand (with hot swap support), so that the
+cards can be safely  inserted and ejected at any time. This package does
+not contain kernel modules (ie. socket and card drivers) that come with
+another package that must be installed for full PCMCIA support. If you own
+a laptop or your system uses PCMCIA cards this package is a must.
 
 %description -l pl
 Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w Twoim
 PLD-Linuxie. Sk³ada siê on z demona oraz kilku programów narzêdziowych.
 Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie kart PCMCIA, dodaj±c i
 usuwaj±c odpowiednie drivery (modu³y kernela), tak i¿ karty mog± byæ
-wk³adane i wyjmowane w dowolnym momencie.
+wk³adane i wyjmowane w dowolnym momencie. Modu³y kernela obs³uguj±ce sloty
+kart i same karty zawarte s± w innych pakietach, które musz± byæ
+zainstalowane aby móc korzystaæ kart. Je¶li posiadasz laptopa albo te¿ Twój
+system wykorzystuje karty PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 
-Modu³y kernela obs³uguj±ce sloty kart i same karty zawarte s± w innych
-pakieyach, które musz± byæ zainstalowany aby móc korzystaæ kart.
-
-Je¶li posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA ten pakiet
-bêdzie Ci niezbêdny.
+%package cardinfo
+Summary:	PCMCIA card monitor and control utility for X
+Summary(pl):	Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów
+Group:		X11/Utilities/System
+Group(pl):	X11/Narzêdzia/System
+Requires:	xforms
 
 %prep
-
 %setup -q
 
 %build
 LDFLAGS="-s"; export LDFLAGS
 
 ./Configure -n --trust --cardbus --current --target=$RPM_BUILD_ROOT \
-    --pnp --srctree --kernel=/usr/src/linux
+    --pnp --srctree --kernel=%{_prefix}/src/linux
 make CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe " \
     XFLAGS="$RPM_OPT_FLAGS -O -pipe " \
     all
@@ -63,22 +62,22 @@ DESTDIR=$RPM_BUILD_ROOT; export DESTDIR
 make MANDIR=${RPM_BUILD_ROOT}%{_mandir} install
 
 # Install our own network up/down script
-mv $RPM_BUILD_ROOT/etc/pcmcia/network $RPM_BUILD_ROOT/etc/pcmcia/network.orig
-install -m755 %{SOURCE1} $RPM_BUILD_ROOT/etc/pcmcia/network
-mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
-mv $RPM_BUILD_ROOT/etc/rc.d/rc.pcmcia $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
-mkdir -p $RPM_BUILD_ROOT/etc/sysconfig
-cp -f %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
+mv $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
+install -m755 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
+mv $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
+cp -f %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
 
-install -m754 %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
+install -m754 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
 install -d $RPM_BUILD_ROOT/var/state/pcmcia
 
-gzip -9nr $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*}
-gzip -9nr ${RPM_BUILD_DIR}/%{name}-%{version}/{SUPPORTED.CARDS,\
+gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*}
+gzip -9nf ${RPM_BUILD_DIR}/%{name}-%{version}/{SUPPORTED.CARDS,\
 CHANGES,COPYING,README,LICENSE,doc/PCMCIA-HOWTO,doc/PCMCIA-PROG}
 
-mv $RPM_BUILD_ROOT/usr/X11R6/man/man1/cardinfo.1.gz \
-  $RPM_BUILD_ROOT/usr/X11R6/man/man1/cardinfo.1x.gz
+mv $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1.gz \
+  $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1x.gz
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -90,41 +89,37 @@ chkconfig --add pcmcia
 [ "$1" = 0 ] && chkconfig --del pcmcia
 
 %files
-%defattr(755,root,root,755)
-%doc %attr(644,root,root) SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz
-%doc %attr(644,root,root) README.gz LICENSE.gz
-%doc %attr(644,root,root) doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
+%defattr(644,root,root,755)
+%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz
+%doc README.gz LICENSE.gz
+%doc doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
 /sbin/*
-/usr/X11R6/bin/cardinfo
-#%attr(644,root,root) /usr/share/pnp.ids
+#%{_datadir}/pnp.ids
 
-%attr(644,root,root) %{_mandir}/man4/*
-%attr(644,root,root) %{_mandir}/man5/*
-%attr(644,root,root) %{_mandir}/man8/*
-%attr(644,root,root) /usr/X11R6/man/man*/*
+%{_mandir}/man4/*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
 
-#/etc/pcmcia/cdrom
-/etc/pcmcia/config
-/etc/pcmcia/ftl
-/etc/pcmcia/ide
-/etc/pcmcia/memory
-/etc/pcmcia/network
-/etc/pcmcia/network.orig
-/etc/pcmcia/scsi
-/etc/pcmcia/serial
-/etc/pcmcia/shared
+#%{_sysconfdir}/pcmcia/cdrom
+%{_sysconfdir}/pcmcia/config
+%{_sysconfdir}/pcmcia/ftl
+%{_sysconfdir}/pcmcia/ide
+%{_sysconfdir}/pcmcia/memory
+%{_sysconfdir}/pcmcia/network
+%{_sysconfdir}/pcmcia/network.orig
+%{_sysconfdir}/pcmcia/scsi
+%{_sysconfdir}/pcmcia/serial
+%{_sysconfdir}/pcmcia/shared
 
-%attr(754,root,root) /etc/rc.d/init.d/pcmcia
-%config %attr(644,root,root) /etc/sysconfig/pcmcia
+%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/pcmcia
+%config %{_sysconfdir}/sysconfig/pcmcia
 
-#%config %attr(644,root,root) /etc/pcmcia/cdrom.opts
-%config %attr(644,root,root) /etc/pcmcia/config.opts
-%config %attr(644,root,root) /etc/pcmcia/ftl.opts
-%config %attr(644,root,root) /etc/pcmcia/ide.opts
-%config %attr(644,root,root) /etc/pcmcia/memory.opts
-%config %attr(644,root,root) /etc/pcmcia/network.opts
-%config %attr(644,root,root) /etc/pcmcia/scsi.opts
-%config %attr(644,root,root) /etc/pcmcia/serial.opts
+#%config %attr(644,root,root) %{_sysconfdir}/pcmcia/cdrom.opts
+%config %{_sysconfdir}/pcmcia/config.opts
+%config %{_sysconfdir}/pcmcia/ftl.opts
+%config %{_sysconfdir}/pcmcia/ide.opts
 
-%attr(644,root,root) /etc/pcmcia/cis/*
-%dir /var/state/pcmcia
+%files cardinfo
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_prefix}/X11R6/bin/cardinfo
+%{_prefix}/X11R6/man/man*/*
