@@ -68,7 +68,7 @@ LDFLAGS="-s"; export LDFLAGS
 	--kernel=%{_prefix}/src/linux \
 	--target=$RPM_BUILD_ROOT
 
-make all \
+%{__make} all \
 	CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe" \
 	CONFIG_PCMCIA=1
 
@@ -76,7 +76,7 @@ make all \
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmcia}
 
-make install \
+%{__make} install \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	CONFIG_PCMCIA=1
 
