@@ -27,8 +27,9 @@ Patch6:		%{name}-original-config.patch
 Patch7:		%{name}-build.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x11:BuildRequires:	gtk+2-devel}
-%{?with_x11:BuildRequires:      xforms-devel}
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.118
+%{?with_x11:BuildRequires:	xforms-devel}
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -122,12 +123,12 @@ PREFIX=%{_prefix}
 UCC=%{__cc}
 LD=ld
 UFLAGS=
-CPPFLAGS=-I/usr/include -I../include
-GTK_CFLAGS=-I/usr/include/gtk-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pango-1.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0
-GTK_LIBS=-lgtk-x11-2.0
-FLIBS=-L/usr/X11R6/lib -lforms -lstdc++
+CPPFLAGS=-I../include
+GTK_CFLAGS=`pkg-config --cflags gtk+-2.0`
+GTK_LIBS=`pkg-config --libs gtk+-2.0`
+FLIBS=-L/usr/X11R6/%{_lib} -lforms -lstdc++
 SYSV_INIT=y
-RC_DIR=%{_sysconfdir}/rc.d
+RC_DIR=/etc/rc.d
 MANDIR=%{_mandir}
 %if %{with x11}
 HAS_XAW=y
