@@ -1,0 +1,16 @@
+--- pcmcia-cs-3.2.5.orig/cardmgr/Makefile	2003-11-21 23:38:30.000000000 +0100
++++ pcmcia-cs-3.2.5/cardmgr/Makefile	2003-11-21 23:40:22.000000000 +0100
+@@ -83,11 +83,11 @@
+ 	$(CC) $(LDFLAGS) $< -o $@ -L/usr/X11R6/lib -L/usr/X11/lib -lX11 -lXaw
+ 
+ gpccard.o: gpccard.c
+-	$(CC) -O -Wall -MD $(CPPFLAGS) `gtk-config --cflags` -c $<
++	$(CC) -O -Wall -MD $(CPPFLAGS) `pkg-config --cflags gtk+-2.0` -c $<
+ 	@mkdir -p .depfiles ; mv $*.d .depfiles
+ 
+ gpccard: gpccard.o
+-	$(CC) $(LDFLAGS) $< -o $@ `gtk-config --libs`
++	$(CC) $(LDFLAGS) $< -o $@ `pkg-config --libs gtk+-2.0`
+ 
+ install-cardinfo: cardinfo
+ 	@mkdir -p $(PREFIX)/usr/X11R6/bin
