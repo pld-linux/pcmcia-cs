@@ -44,22 +44,11 @@ case "$1" in
 	fgrep -q pcmcia /proc/devices
 	if [ $? -ne 0 ] ; then
 		show "Loading PCMCIA modules"
-		if [ -d /lib/modules/preferred ] ; then
-			PC=/lib/modules/preferred/pcmcia
-		else
-			PC=/lib/modules/`uname -r`/pcmcia
-		fi
-		if [ -d $PC ] ; then
-			/sbin/insmod $PC/pcmcia_core.o* $CORE_OPTS
-			/sbin/insmod $PC/$PCIC.o* $PCIC_OPTS
-			/sbin/insmod $PC/ds.o*
-			deltext
-			ok
-		else
-			deltext
-			fail
-			exit 1
-		fi
+		/sbin/modprobe pcmcia_core $CORE_OPTS
+		/sbin/modprobe $PCIC $PCIC_OPTS
+		/sbin/modprobe ds
+		deltext
+		ok
 	fi
 	if [ -s /var/run/cardmgr.pid ] && \
 		kill -0 `cat /var/run/cardmgr.pid` 2>/dev/null ; then
