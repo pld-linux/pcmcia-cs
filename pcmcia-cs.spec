@@ -14,7 +14,7 @@ Source3:	pcmcia.init
 Patch0:		%{name}-manfid_0175.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
-Prereq:		chkconfig
+PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
@@ -54,6 +54,9 @@ Group(pl):	Aplikacje/System
 %description BOOT
 %{name} for bootdisk.
 
+%description BOOT -l pl
+%{name} dla bootkietki.
+
 %prep
 %setup -q
 #%patch0 -p1
@@ -80,23 +83,23 @@ Group(pl):	Aplikacje/System
 ## uClibc lacks outb and family required by probe
 ## TODO: support for other arch than intel
 cat <<EOF >cardmgr/io.c
-inline void 
-outb (unsigned char value, unsigned short int port) { 
-	asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port)); 
+inline void
+outb (unsigned char value, unsigned short int port) {
+	asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port));
 }
-inline void 
+inline void
 outw (unsigned short int value, unsigned short int port) {
 	asm volatile ("outw %w0,%w1": :"a" (value), "Nd" (port));
 }
 
-inline unsigned char 
+inline unsigned char
 inb (unsigned short int port) {
 	unsigned char _v;
 	asm volatile ("inb %w1,%0":"=a" (_v):"Nd" (port));
 	return _v;
 }
 
-inline unsigned short int 
+inline unsigned short int
 inw (unsigned short int port) {
 	unsigned short _v;
 	asm volatile ("inw %w1,%0":"=a" (_v):"Nd" (port));
@@ -106,12 +109,12 @@ EOF
 
 ( cd cardmgr; gcc -c io.c )
 
-%{__make} -C cardmgr probe   CONFIG_PCMCIA=1 \
+%{__make} -C cardmgr probe CONFIG_PCMCIA=1 \
 	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc io.o"
 
-%{__make} -C cardmgr cardctl ide_info scsi_info pcinitrd ifport ifuser  CONFIG_PCMCIA=1 \
+%{__make} -C cardmgr cardctl ide_info scsi_info pcinitrd ifport ifuser CONFIG_PCMCIA=1 \
 	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
