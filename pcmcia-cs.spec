@@ -99,10 +99,10 @@ lisa --SysV-init remove pcmcia $1
 
 /usr/X11R6/bin/cardinfo
 
-/usr/man/man1/*
-/usr/man/man4/*
-/usr/man/man5/*
-/usr/man/man8/*
+%{_mandir}/man1/*
+%{_mandir}/man4/*
+%{_mandir}/man5/*
+%{_mandir}/man8/*
 
 %config /etc/rc.d/init.d/pcmcia
 %config /etc/sysconfig/pcmcia
@@ -132,4 +132,4 @@ lisa --SysV-init remove pcmcia $1
 %ChangeLog
 * Mon Jan 01 1997 ...
 
-$Id: pcmcia-cs.spec,v 1.1 1999-04-07 16:32:41 kloczek Exp $
+$Id: pcmcia-cs.spec,v 1.2 1999-05-17 10:23:24 kloczek Exp $
