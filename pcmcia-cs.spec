@@ -138,7 +138,9 @@ HAS_FORMS=y
 CONFIG_INET=y
 CONFIG_SCSI=y
 DO_IDE=y
+%ifnarch ppc
 CONFIG_ISA=y
+%endif
 EOF
 ln -s config.mk config.out
 
