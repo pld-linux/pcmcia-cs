@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# chkconfig:	2345 45 96
+# chkconfig:	2345 45 55
 # processname:	cardmgr
 # pidfile:	/var/run/cardmgr.pid
 # config:	/etc/pcmcia/config
