@@ -172,8 +172,9 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia,%{_bi
 	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir}
 
+%if %{with x11}
 mv -f $RPM_BUILD_ROOT/usr/X11R6/bin/{,x}cardinfo $RPM_BUILD_ROOT/usr/bin
-
+%endif
 
 # The files that we don't want installed
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia
