@@ -3,20 +3,19 @@ Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.21
 Release:	1
+License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(pl):	Aplikacje/System
 Group(de):	Applikationen/System
-License:	MPL (Mozilla Public License)
 Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
-BuildRequires:	xforms-static
-BuildRequires:	xforms-devel
 Prereq:		chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Obsoletes:	pcmcia-cs-cardinfo
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
@@ -40,20 +39,6 @@ pakietach, które musz± byæ zainstalowane aby móc korzystaæ kart. Je¶li
 posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA, ten
 pakiet bêdzie Ci niezbêdny.
 
-%package cardinfo
-Summary:	PCMCIA card monitor and control utility for X
-Summary(pl):	Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów
-Group:		Applications/System
-Group(pl):	Aplikacje/System
-Group(de):	Applikationen/System
-Requires:	xforms
-
-%description cardinfo
-PCMCIA card monitor and control utility for X.
-
-%description cardinfo -l pl
-Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów.
-
 %prep
 %setup -q
 
@@ -73,7 +58,8 @@ LDFLAGS="-s"; export LDFLAGS
 
 %{__make} all \
 	CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe" \
-	CONFIG_PCMCIA=1
+	CONFIG_PCMCIA=1 \
+	HAS_FORMS=n
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -81,7 +67,8 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmci
 
 %{__make} install \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
-	CONFIG_PCMCIA=1
+	CONFIG_PCMCIA=1 \
+	HAS_FORMS=n
 
 # Install our own network up/down script
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
@@ -89,12 +76,8 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
 
-gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*} \
-	SUPPORTED.CARDS CHANGES COPYING README LICENSE \
+gzip -9nf SUPPORTED.CARDS CHANGES COPYING README LICENSE \
 	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
-
-mv -f $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1.gz \
-  $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1x.gz
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -148,8 +131,3 @@ fi
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-
-%files cardinfo
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_prefix}/X11R6/bin/cardinfo
-%{_prefix}/X11R6/man/man1/*
