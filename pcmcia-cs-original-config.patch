@@ -1,0 +1,9 @@
+--- pcmcia-cs-3.2.7/include/pcmcia/config.h.orig	2004-01-27 21:14:13.000000000 +0100
++++ pcmcia-cs-3.2.7/include/pcmcia/config.h	2004-01-27 21:13:35.000000000 +0100
+@@ -5,5 +5,6 @@
+ #define __IN_PCMCIA_PACKAGE__
+ 
+ #include <pcmcia/autoconf.h>
++#include_next <linux/config.h>
+ 
+ #endif /* _PCMCIA_CONFIG_H */

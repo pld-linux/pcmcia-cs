@@ -5,7 +5,7 @@
 %bcond_without smp		# don't build the SMP modules
 %bcond_with    old_kernel	# build with kernel modules for < 2.6.0
 
-%define	_rel	1
+%define	_rel	2
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(es):	Demonio y herramientas para usar adaptadores PCMCIA
 Summary(pl):	Obs³uga kart PCMCIA
@@ -33,6 +33,7 @@ Patch5:		%{name}-orinoco.patch
 Patch6:		%{name}-major.patch
 Patch7:		%{name}-smp-up.patch
 Patch8:		%{name}-no-lib-detect.patch
+Patch9:		%{name}-original-config.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x:BuildRequires:	gtk+2-devel}
 %{?with_xforms:BuildRequires:	xforms-devel}
@@ -207,14 +208,15 @@ wersja znajduje siê w pakiecie %{name}-X11).
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
 CONFIGOPTS="--noprompt --trust --cardbus --current --pnp --apm --srctree %{?with_old_kernel:--force}"
 %if %{with x}
-CONFIGOPTS="$CONFIGOPTS --has-xaw --has-gtk"
+CONFIGOPTS="$CONFIGOPTS --x11 --has-xaw --has-gtk"
 %endif
 %if %{with xforms}
-CONFIGOPTS="$CONFIGOPTS --has-forms"
+CONFIGOPTS="$CONFIGOPTS --x11 --has-forms"
 %endif
 %if %{with smp} && %{with old_kernel}
 ./Configure \
@@ -227,7 +229,7 @@ CONFIGOPTS="$CONFIGOPTS --has-forms"
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
 	LDFLAGS="%{rpmldflags}" \
 	CC="%{kgcc}"
-	
+
 mkdir modules-smp
 mv -f {clients,modules,wireless}/*.o modules-smp
 %endif
@@ -246,13 +248,13 @@ mv -f {clients,modules,wireless}/*.o modules-smp
 %install
 rm -rf $RPM_BUILD_ROOT
 
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia,%{_bindir}}
 
 %{__make} install \
 	MODDIR=/lib/modules/%{_kernel_ver} \
-	MANDIR=$RPM_BUILD_ROOT%{_mandir} 
-# Move the X11 binaries, if any
-mv $RPM_BUILD_ROOT%{_bindir}/* $RPM_BUILD_ROOT/usr/X11R6/bin || :
+	MANDIR=$RPM_BUILD_ROOT%{_mandir}
+
+mv -f $RPM_BUILD_ROOT/usr/X11R6/bin/* $RPM_BUILD_ROOT%{_bindir} || :
 
 %if %{with smp} && %{with old_kernel}
 SMPMODDIR=$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/pcmcia
@@ -336,14 +338,14 @@ fi
 %if %{with x}
 %files X11
 %defattr(644,root,root,755)
-%attr(755,root,root) /usr/X11R6/bin/*
-%exclude /usr/X11R6/bin/cardinfo
+%attr(755,root,root) %{_bindir}/*
+%exclude %{_bindir}/cardinfo
 %endif
 
 %if %{with xforms}
 %files cardinfo
 %defattr(644,root,root,755)
-%attr(755,root,root) /usr/X11R6/bin/cardinfo
+%attr(755,root,root) %{_bindir}/cardinfo
 %endif
 
 %if %{with old_kernel}
