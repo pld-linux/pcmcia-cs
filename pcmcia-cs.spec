@@ -1,7 +1,7 @@
-
-%bcond_without x11		# without XFree version
-
-%define	_rel	1
+#
+# Conditional build:
+%bcond_without x11		# without X11-based utilities
+#
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(es):	Demonio y herramientas para usar adaptadores PCMCIA
 Summary(pl):	ObsЁuga kart PCMCIA
@@ -9,7 +9,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.2.8
-Release:	%{_rel}
+Release:	1
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
@@ -32,7 +32,8 @@ Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix	/
+%define		_prefix		/
+%define		_bindir		/bin
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
@@ -85,14 +86,13 @@ PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
 п╕дтримку р╕зноман╕тних PCMCIA-карт вс╕х вид╕в та демон, що дозволя╓
 п╕дключати та в╕дключати так╕ карти "на ходу".
 
-
 %package X11
 Summary:	X11 Status Monitor
 Summary(es):	Monitor del estado para X11
 Summary(pl):	Monitor dla X11
-Release:	%{_rel}
 Group:		X11/Applications
-Requires:	%{name} = %{version}-%{_rel}
+Requires:	%{name} = %{version}-%{release}
+Obsoletes:	pcmcia-cs-cardinfo
 
 %description X11
 X11 Monitor for PCMCIA.
@@ -105,7 +105,6 @@ Monitorowanie PCMCIA pod X Window.
 
 %prep
 %setup -q
-
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
@@ -155,7 +154,6 @@ EOF
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia,%{_bindir},/usr/bin}
 
 %{__make} install \
@@ -180,7 +178,7 @@ install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 rm -rf $RPM_BUILD_ROOT
 
 %post
-chkconfig --add pcmcia
+/sbin/chkconfig --add pcmcia
 if [ -f /var/lock/subsys/pcmcia ]; then
 	echo "You may run \"/etc/rc.d/init.d/pcmcia restart\" to restart with new version"
 	echo "of pcmcia cardbus daemon. Note that if you changed your kernel, restarting"
@@ -225,10 +223,4 @@ fi
 %files X11
 %defattr(644,root,root,755)
 %attr(755,root,root) /usr/bin/*
-%endif
-
-%if %{with xforms}
-%files cardinfo
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/cardinfo
 %endif
