@@ -4,7 +4,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
-%define	_rel	15
+%define	_rel	16
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
