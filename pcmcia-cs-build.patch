@@ -1,0 +1,36 @@
+diff -urN pcmcia-cs-3.2.7.orig/Makefile pcmcia-cs-3.2.7/Makefile
+--- pcmcia-cs-3.2.7.orig/Makefile	2003-05-16 01:59:44.000000000 -0400
++++ pcmcia-cs-3.2.7/Makefile	2004-01-24 05:51:55.644884547 -0500
+@@ -6,11 +6,8 @@
+ include config.mk
+ endif
+ 
+-ALL  = modules clients wireless cardmgr flash debug-tools man etc
+-DIRS = cardmgr flash debug-tools man etc
+-ifndef CONFIG_PCMCIA
+-DIRS := modules clients wireless $(DIRS)
+-endif
++ALL  = cardmgr debug-tools man etc
++DIRS = cardmgr debug-tools man etc
+ 
+ help:
+ 	@echo "Pick one of the following targets:"
+@@ -31,7 +28,7 @@
+ 	@$(MAKE) -s clean
+ 	@./Configure -n
+ 
+-all:	.prereq.ok kcheck
++all:
+ 	@set -e ; for d in $(DIRS) ; do $(MAKE) -C $$d ; done
+ 	@for f in *.mk ; do \
+ 	    if [ $$f != config.mk -a $$f != rules.mk ] ; then \
+@@ -48,7 +45,7 @@
+ 	rm -f config.out
+ 	@$(MAKE) clean
+ 
+-install: .prereq.ok kcheck
++install: 
+ 	@set -e ; for d in $(DIRS) ; do $(MAKE) -C $$d install ; done
+ 	@for f in *.mk ; do \
+ 	    if [ $$f != config.mk -a $$f != rules.mk ] ; then \
+
