@@ -11,7 +11,7 @@ BuildRequires:	kernel-source
 BuildRequires:	xforms-static
 BuildRequires:	xforms-devel
 Prereq:		chkconfig
-BuildRoot:	/tmp/%{name}-%{version}-root-%(id -u -n) -u -n)
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Source0:	ftp://csb.stanford.edu/pub/pcmcia/%{name}-%{version}.tar.gz
 Source1:	pcmcia-cs-network.script
 Source2:	pcmcia.sysconfig
