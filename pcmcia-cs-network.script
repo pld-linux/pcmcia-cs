@@ -13,12 +13,12 @@ device=$2
 
 case "${action:?}" in
 'start')
-	/etc/sysconfig/network-scripts/ifup ifcfg-${device}
+	/sbin/ifup ${device}
     ;;
 'stop')
-	/etc/sysconfig/network-scripts/ifdown ifcfg-${device}
+	/sbin/ifdown ${device}
     ;;
 'restart')
-    /sbin/ifconfig ${device:?} down up
+	/sbin/ifdown ${device} ; /sbin/ifup ${device}
     ;;
 esac
