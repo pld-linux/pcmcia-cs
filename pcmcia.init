@@ -35,39 +35,40 @@ while read SN CLASS MOD INST DEV EXTRA ; do
 done
 }
 
+
 case "$1" in
-    start)
+  start)
 	SC=/var/lib/pcmcia/scheme
 	if [ -L $SC -o ! -O $SC ] ; then rm -f $SC ; fi
 	if [ ! -f $SC ] ; then umask 022 ; touch $SC ; fi
 	if [ "$SCHEME" ] ; then umask 022 ; echo $SCHEME > $SC ; fi
 	fgrep -q pcmcia /proc/devices
 	if [ $? -ne 0 ] ; then
-		show "Loading PCMCIA modules"
-		/sbin/modprobe $PCIC $PCIC_OPTS
-		/sbin/modprobe ds
-		deltext
+		_modprobe single $PCIC $PCIC_OPTS
+		_modprobe single ds
 		ok
 	fi
 	if [ -s /var/run/cardmgr.pid ] && \
 		kill -0 `cat /var/run/cardmgr.pid` 2>/dev/null ; then
-		msg_Already_Running cardmgr
+		msg_already_running cardmgr
+		exit 1
 	else
 		msg_starting cardmgr
 		if [ -r /var/lib/pcmcia/stab ] ; then
 			cat /var/lib/pcmcia/stab | cleanup
 		fi
 		daemon /sbin/cardmgr $CARDMGR_OPTS
+		touch /var/lock/subsys/pcmcia
 	fi
-	touch /var/lock/subsys/pcmcia
 	;;
-    stop)
+  stop)
 	if [ -s /var/run/cardmgr.pid ] ; then
 		msg_stopping cardmgr
 		killproc cardmgr
 		rm -f /var/lock/subsys/pcmcia
 	else
-		msg_Not_Running cardmgr
+		msg_not_running cardmgr
+		exit 1
 	fi
 	show "Unloading PCMCIA modules"
 	busy
@@ -76,20 +77,19 @@ case "$1" in
 		/sbin/rmmod $PCIC
 		/sbin/rmmod pcmcia_core
 	fi
-	deltext
 	ok
 	;;
-    status)
+  status)
 	status cardmgr
 	exit $?
 	;;
-    restart|reload)
+  restart|reload)
 	$0 stop
 	$0 start
 	exit $?
 	;;
-    *)
-	msg_Usage "$0 {start|stop|status|restart|reload}"
+  *)
+	msg_usage "$0 {start|stop|restart|reload|status}"
 	exit 1
 	;;
 esac
