@@ -1,7 +1,7 @@
 Summary:	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
-Version:	3.1.13
+Version:	3.1.14
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
@@ -12,7 +12,7 @@ BuildRequires:	xforms-static
 BuildRequires:	xforms-devel
 Prereq:		chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Source0:	ftp://csb.stanford.edu/pub/pcmcia/%{name}-%{version}.tar.gz
+Source0:	ftp://sourceforge.org/pcmcia/%{name}-%{version}.tar.gz
 Source1:	pcmcia-cs-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
