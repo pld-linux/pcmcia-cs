@@ -1,4 +1,4 @@
-%define	_rel	7	
+%define	_rel	8
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
@@ -6,7 +6,7 @@ Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
 Release:	%{_rel}
-License:	MPL (Mozilla Public License)
+License:	Mozilla Public License
 Group:		Applications/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
@@ -124,10 +124,6 @@ mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
-
-%ifarch %{ix86}
-gzip -9nf *.wavelan2_cs
-%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
