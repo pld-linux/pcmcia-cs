@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.24
-Release:	1
+Release:	2
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(pl):	Aplikacje/System
@@ -62,7 +62,7 @@ pakiet bêdzie Ci niezbêdny.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmcia}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig},/var/lib/pcmcia}
 
 %{__make} install \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
@@ -71,8 +71,8 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmci
 # Install our own network up/down script
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
-install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
-install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
+install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
+install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 
 gzip -9nf SUPPORTED.CARDS CHANGES COPYING README LICENSE \
 	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
@@ -83,15 +83,15 @@ rm -rf $RPM_BUILD_ROOT
 %post
 chkconfig --add pcmcia
 if [ -f /var/lock/subsys/pcmcia ]; then
-	/rc.d/init.d/pcmcia restart 2> /dev/null
+	/etc/rc.d/init.d/pcmcia restart 2> /dev/null
 else
-	echo "Run \"/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
+	echo "Run \"/etc/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
 fi
 
 %postun
 if [ "$1" = "0" ]; then
 	if [ -f /var/state/run/pcmcia ]; then
-		/rc.d/init.d/pcmcia stop 2> /dev/null
+		/etc/rc.d/init.d/pcmcia stop 2> /dev/null
 	fi
 	/sbin/chkconfig --del pcmcia
 fi
@@ -103,8 +103,8 @@ fi
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/pcmcia
-%config %verify(not size mtime md5) %{_sysconfdir}/sysconfig/pcmcia
+%attr(754,root,root) /etc/rc.d/init.d/pcmcia
+%config %verify(not size mtime md5) /etc/sysconfig/pcmcia
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
