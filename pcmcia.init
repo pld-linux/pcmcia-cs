@@ -37,13 +37,13 @@ done
 
 case "$1" in
     start)
-	show "Loading PCMCIA modules"
 	SC=/var/lib/pcmcia/scheme
 	if [ -L $SC -o ! -O $SC ] ; then rm -f $SC ; fi
 	if [ ! -f $SC ] ; then umask 022 ; touch $SC ; fi
 	if [ "$SCHEME" ] ; then umask 022 ; echo $SCHEME > $SC ; fi
 	fgrep -q pcmcia /proc/devices
 	if [ $? -ne 0 ] ; then
+		show "Loading PCMCIA modules"
 		if [ -d /lib/modules/preferred ] ; then
 			PC=/lib/modules/preferred/pcmcia
 		else
