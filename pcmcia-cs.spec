@@ -18,30 +18,31 @@ Prereq:		chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-The pcmcia-cs package adds PCMCIA cards handling support for your PLD-Linux
-ystem and contains of a card manager daemon and some utilities. PCMCIA
-daemon can respond to card insertion and removal events by loading and
-unloading proper drivers on demand (with hot swap support), so that the
-cards can be safely  inserted and ejected at any time. This package does
-not contain kernel modules (ie. socket and card drivers) that come with
-another package that must be installed for full PCMCIA support. If you own
-a laptop or your system uses PCMCIA cards this package is a must.
+The pcmcia-cs package adds PCMCIA cards handling support for your
+PLD-Linux ystem and contains of a card manager daemon and some
+utilities. PCMCIA daemon can respond to card insertion and removal
+events by loading and unloading proper drivers on demand (with hot
+swap support), so that the cards can be safely inserted and ejected at
+any time. This package does not contain kernel modules (ie. socket and
+card drivers) that come with another package that must be installed
+for full PCMCIA support. If you own a laptop or your system uses
+PCMCIA cards this package is a must.
 
 %description -l pl
-Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w Twoim
-PLD-Linuxie. Sk³ada siê on z demona oraz kilku programów narzêdziowych.
-Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie kart PCMCIA, dodaj±c i
-usuwaj±c odpowiednie drivery (modu³y kernela), tak i¿ karty mog± byæ
-wk³adane i wyjmowane w dowolnym momencie. Modu³y kernela obs³uguj±ce sloty
-kart i same karty zawarte s± w innych pakietach, które musz± byæ
-zainstalowane aby móc korzystaæ kart. Je¶li posiadasz laptopa albo te¿ Twój
-system wykorzystuje karty PCMCIA, ten pakiet bêdzie Ci niezbêdny.
+Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w
+Twoim PLD-Linuxie. Sk³ada siê on z demona oraz kilku programów
+narzêdziowych. Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie
+kart PCMCIA, dodaj±c i usuwaj±c odpowiednie drivery (modu³y kernela),
+tak i¿ karty mog± byæ wk³adane i wyjmowane w dowolnym momencie. Modu³y
+kernela obs³uguj±ce sloty kart i same karty zawarte s± w innych
+pakietach, które musz± byæ zainstalowane aby móc korzystaæ kart. Je¶li
+posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA, ten
+pakiet bêdzie Ci niezbêdny.
 
 %package cardinfo
 Summary:	PCMCIA card monitor and control utility for X
 Summary(pl):	Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów
-Group:		X11/Utilities/System
-Group(pl):	X11/Narzêdzia/System
+Group:		Utilities/System
 Requires:	xforms
 
 %description cardinfo
