@@ -11,12 +11,12 @@ Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.2.5
+Version:	3.2.6
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
-# Source0-md5:	44dbc0a8978fe618eee242b0bd25392c
+# Source0-md5:	2c03731eca336d48ae518593414d1dd6
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
@@ -32,10 +32,10 @@ Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
-Patch6:		%{name}-gtk+2.patch
-Patch7:		%{name}-major.patch
-Patch8:		%{name}-smp-up.patch
-Patch9:		%{name}-no-lib-detect.patch
+Patch6:		%{name}-major.patch
+Patch7:		%{name}-smp-up.patch
+Patch8:		%{name}-no-lib-detect.patch
+Patch9:		%{name}-modular-config.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x:BuildRequires:	gtk+2-devel}
 %{?with_xforms:BuildRequires:	xforms-devel}
