@@ -1,0 +1,72 @@
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/cardctl.c pcmcia-cs-3.2.7/cardmgr/cardctl.c
+--- pcmcia-cs-3.2.7.org/cardmgr/cardctl.c	2002-08-19 03:19:56.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/cardctl.c	2004-02-22 17:13:51.000000000 +0000
+@@ -46,7 +46,7 @@
+ #include <sys/stat.h>
+ 
+ #include <pcmcia/version.h>
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ #include <pcmcia/cs_types.h>
+ #include <pcmcia/cs.h>
+ #include <pcmcia/cistpl.h>
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/cardinfo.c pcmcia-cs-3.2.7/cardmgr/cardinfo.c
+--- pcmcia-cs-3.2.7.org/cardmgr/cardinfo.c	2002-10-09 06:15:11.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/cardinfo.c	2004-02-22 17:13:51.000000000 +0000
+@@ -49,7 +49,7 @@
+ #include <forms.h>
+ 
+ #undef Status
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ #include <pcmcia/version.h>
+ #include <pcmcia/cs_types.h>
+ #include <pcmcia/cs.h>
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/cardmgr.c pcmcia-cs-3.2.7/cardmgr/cardmgr.c
+--- pcmcia-cs-3.2.7.org/cardmgr/cardmgr.c	2003-11-27 22:00:14.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/cardmgr.c	2004-02-22 17:13:51.000000000 +0000
+@@ -50,7 +50,7 @@
+ #include <sys/file.h>
+ 
+ #include <pcmcia/version.h>
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ #include <pcmcia/cs_types.h>
+ #include <pcmcia/cs.h>
+ #include <pcmcia/cistpl.h>
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/gpccard.c pcmcia-cs-3.2.7/cardmgr/gpccard.c
+--- pcmcia-cs-3.2.7.org/cardmgr/gpccard.c	2002-10-07 16:44:40.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/gpccard.c	2004-02-22 17:13:51.000000000 +0000
+@@ -45,7 +45,7 @@
+ #include <sys/stat.h>
+ #include <sys/file.h>
+ 
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ #include <pcmcia/version.h>
+ #include <pcmcia/cs_types.h>
+ #include <pcmcia/cs.h>
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/pcic_probe.c pcmcia-cs-3.2.7/cardmgr/pcic_probe.c
+--- pcmcia-cs-3.2.7.org/cardmgr/pcic_probe.c	2003-08-05 18:38:23.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/pcic_probe.c	2004-02-22 17:13:51.000000000 +0000
+@@ -39,7 +39,7 @@
+ #include <errno.h>
+ #include <fcntl.h>
+ 
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ 
+ /*====================================================================*/
+ 
+diff -Nur pcmcia-cs-3.2.7.org/cardmgr/xcardinfo.c pcmcia-cs-3.2.7/cardmgr/xcardinfo.c
+--- pcmcia-cs-3.2.7.org/cardmgr/xcardinfo.c	2002-10-09 15:49:21.000000000 +0000
++++ pcmcia-cs-3.2.7/cardmgr/xcardinfo.c	2004-02-22 17:13:51.000000000 +0000
+@@ -41,7 +41,7 @@
+ #include <X11/Xaw/Dialog.h>
+ 
+ #undef Status
+-#include <pcmcia/config.h>
++//#include <pcmcia/config.h>
+ #include <pcmcia/version.h>
+ #include <pcmcia/cs_types.h>
+ #include <pcmcia/cs.h>
