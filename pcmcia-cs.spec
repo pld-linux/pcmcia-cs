@@ -1,29 +1,31 @@
+%define	_rel	1
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.1.30
-%define	_rel	15
+Version:	3.2.3
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
-Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
 Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
-Patch0:		%{name}-manfid_0175.patch
+Patch0:		%{name}-path.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
-Patch3:		%{name}-PRISM2.patch
+Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
-URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
-%{!?_without_dist_kernel:Requires:	kernel-pcmcia-cs}
+URL:		http://pcmcia-cs.sourceforge.net/
+%{!?_without_dist_kernel:Requires:     kernel-pcmcia-cs}
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
 BuildRequires:	%{kgcc_package}
+BuildRequires:	XFree86-devel
+BuildRequires:	gtk+-devel
 PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -84,15 +86,27 @@ wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
+%package X11
+Summary:	X11 Status Monitor
+Summary(pl):	Monitor dla X11
+Release:	%{_rel}
+Group:		X11/Applications
+
+%description X11
+X11 Monitor for PCMCIA.
+
+%description X11
+Monitorowanie PCMCIA pod X Window.
+
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %ifarch %{ix86}
 tar xzvf %{SOURCE4}
-tar xzvf %{SOURCE5}
 %patch2 -p1
 %endif
+tar xzvf %{SOURCE5}
 %patch3 -p1
 %patch4 -p1
 
@@ -130,6 +144,10 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 
+%ifarch %{ix86}
+gzip -9nf *.wavelan2_cs
+%endif
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -165,17 +183,17 @@ fi
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
-%ifarch %{ix86}
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
-%endif
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/cs89x0.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ieee1394.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/network.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
 %attr(754,root,root) %{_sysconfdir}/pcmcia/memory
@@ -195,9 +213,15 @@ fi
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
+%files X11
+%defattr(644,root,root,755)
+%{_bindir}/gpccard
+%{_bindir}/xcardinfo
+
 %ifarch %{ix86}
 %files -n kernel-pcmcia-wavelan2
 %defattr(644,root,root,755)
 %doc *wavelan2*
 /lib/modules/%{_kernel_ver}/pcmcia/*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
 %endif
