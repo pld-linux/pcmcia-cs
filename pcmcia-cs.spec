@@ -1,4 +1,4 @@
-%define	_rel	6
+%define	_rel	7	
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
@@ -24,7 +24,6 @@ BuildRequires:	%{kgcc_package}
 PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Requires:	kernel-pcmcia-cs
 Obsoletes:	pcmcia-cs-cardinfo
 
 %description
@@ -126,9 +125,6 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 
-gzip -9nf SUPPORTED.CARDS CHANGES COPYING README{,-2.4} LICENSE \
-	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
-
 %ifarch %{ix86}
 gzip -9nf *.wavelan2_cs
 %endif
@@ -160,8 +156,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz README.gz README-2.4.gz
-%doc LICENSE.gz doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
+%doc SUPPORTED.CARDS CHANGES COPYING README{,-2.4}
+%doc LICENSE doc/PCMCIA-HOWT doc/PCMCIA-PROG
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
