@@ -1,7 +1,7 @@
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
-Version:	3.1.19
+Version:	3.1.20
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
