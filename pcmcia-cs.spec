@@ -44,6 +44,12 @@ Group:		X11/Utilities/System
 Group(pl):	X11/Narzêdzia/System
 Requires:	xforms
 
+%description cardinfo
+PCMCIA card monitor and control utility for X.
+
+%description cardinfo -l pl
+Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów.
+
 %prep
 %setup -q
 
