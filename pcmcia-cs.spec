@@ -70,8 +70,10 @@ Group:		Applications/System
 	--kernel=%{_prefix}/src/linux \
 	--target=$RPM_BUILD_ROOT
 
-## my god why does cardmgr require yacc and lex ??????????????
-%{__make} -C cardmgr cardmgr CONFIG_PCMCIA=1 LDFLAGS="-s -static"
+%{__make} -C cardmgr cardmgr CONFIG_PCMCIA=1 \
+	CPPFLAGS="-Os -I../include -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	LDFLAGS="-nostdlib -static -s" \
+	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
 
 ## uClibc lacks outb and family required by probe
 ## TODO: support for other arch than intel
