@@ -1,0 +1,32 @@
+diff -ur pcmcia-cs-3.1.30-/cardmgr/Makefile pcmcia-cs-3.1.30/cardmgr/Makefile
+--- pcmcia-cs-3.1.30-/cardmgr/Makefile	Wed Feb  7 00:41:40 2001
++++ pcmcia-cs-3.1.30/cardmgr/Makefile	Sat Mar 16 08:13:50 2002
+@@ -54,10 +54,10 @@
+ 	@mkdir -p .depfiles ; mv $*.d .depfiles
+ 
+ parser: lex_config.o yacc_config.c
+-	$(CC) -O $(CPPFLAGS) -DYYDEBUG=1 -o $@ yacc_config.c lex_config.o
++	$(CC) $(LDFLAGS) -O $(CPPFLAGS) -DYYDEBUG=1 -o $@ yacc_config.c lex_config.o
+ 
+ cardinfo: cardinfo.o
+-	$(CC) $< -o $@ $(FLIBS) -lm
++	$(CC) $(LDFLAGS) $< -o $@ $(FLIBS) -lm
+ 
+ install-cardinfo: cardinfo
+ 	@mkdir -p $(PREFIX)/usr/X11R6/bin
+diff -ur pcmcia-cs-3.1.30-/debug-tools/Makefile pcmcia-cs-3.1.30/debug-tools/Makefile
+--- pcmcia-cs-3.1.30-/debug-tools/Makefile	Wed Feb  7 00:41:40 2001
++++ pcmcia-cs-3.1.30/debug-tools/Makefile	Sat Mar 16 08:13:21 2002
+@@ -52,10 +52,10 @@
+ 	@mkdir -p .depfiles ; mv $*.d .depfiles
+ 
+ pack_cis: pack_cis.o lex_cis.o yacc_cis.o
+-	$(CC) $+ -o $@ -lm
++	$(CC) $(LDFLAGS) $+ -o $@ -lm
+ 
+ parser: lex_cis.o yacc_cis.c
+-	$(CC) $(XFLAGS) $(CPPFLAGS) -DDEBUG -o $@ $+
++	$(CC) $(LDFLAGS) $(XFLAGS) $(CPPFLAGS) -DDEBUG -o $@ $+
+ 
+ clean:
+ 	rm -f core core.* *.o *.s *.a *~ .depend .depfiles/*.d
