@@ -49,7 +49,7 @@ pakietach, ktСre musz╠ byФ zainstalowane aby mСc korzystaФ z kart.
 Je╤li posiadasz laptopa albo te© TwСj system wykorzystuje karty
 PCMCIA, ten pakiet bЙdzie Ci niezbЙdny.
 
-%description utils -l ru
+%description -l ru
 Многие лаптопы, ноутбуки и другие машины поддерживают расширение при
 помощи PCMCIA-карт. Известные также как "credit card adapters",
 PCMCIA-карты - это маленькие карточки, включающие все, что угодно, от
@@ -58,7 +58,7 @@ PCMCIA-карты - это маленькие карточки, включающие все, что угодно, от
 содержит поддержку разнообразных PCMCIA-карт всех разновидностей и
 демон, который позволяет подключать и отключать такие карты "на ходу".
 
-%description utils -l uk
+%description -l uk
 Багато лаптоп╕в, ноутбук╕в та ╕нших машин п╕дтримують розширення за
 допомогою PCMCIA-карт. В╕дом╕ також як "credit card adapters",
 PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
