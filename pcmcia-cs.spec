@@ -19,6 +19,7 @@ Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
+# Source4-md5:	8b1829e3554ba15d400ab367e6851437
 Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
 Patch0:		%{name}-path.patch
 Patch1:		%{name}-LDFLAGS.patch
