@@ -127,9 +127,3 @@ lisa --SysV-init remove pcmcia $1
 %config /etc/pcmcia/network.opts
 %config /etc/pcmcia/scsi.opts
 %config /etc/pcmcia/serial.opts
-
-
-%ChangeLog
-* Mon Jan 01 1997 ...
-
-$Id: pcmcia-cs.spec,v 1.3 1999-07-09 16:22:11 kloczek Exp $
