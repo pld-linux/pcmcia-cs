@@ -9,7 +9,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.2.8
-Release:	3.2
+Release:	4
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
@@ -27,7 +27,7 @@ Patch6:		%{name}-original-config.patch
 Patch7:		%{name}-build.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x11:BuildRequires:	gtk+2-devel}
-BuildRequires:	pkgconfig
+%{?with_x11:BuildRequires:	pkgconfig}
 BuildRequires:	rpmbuild(macros) >= 1.118
 %{?with_x11:BuildRequires:	xforms-devel}
 Requires(post,preun):	/sbin/chkconfig
@@ -124,13 +124,13 @@ UCC=%{__cc}
 LD=ld
 UFLAGS=
 CPPFLAGS=-I../include
-GTK_CFLAGS=`pkg-config --cflags gtk+-2.0`
-GTK_LIBS=`pkg-config --libs gtk+-2.0`
-FLIBS=-L/usr/X11R6/%{_lib} -lforms -lstdc++
 SYSV_INIT=y
 RC_DIR=/etc/rc.d
 MANDIR=%{_mandir}
 %if %{with x11}
+GTK_CFLAGS=`pkg-config --cflags gtk+-2.0`
+GTK_LIBS=`pkg-config --libs gtk+-2.0`
+FLIBS=-L/usr/X11R6/%{_lib} -lforms -lm
 HAS_XAW=y
 HAS_GTK=y
 HAS_FORMS=y
