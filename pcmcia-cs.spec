@@ -9,7 +9,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.2.8
-Release:	3
+Release:	3.1
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
@@ -127,7 +127,13 @@ RC_DIR=%{_sysconfdir}/rc.d
 MANDIR=%{_mandir}
 %if %{with x11}
 HAS_XAW=y
+#HAS_GTK=y
+#HAS_FORMS=y
 %endif
+CONFIG_INET=y
+CONFIG_SCSI=y
+DO_IDE=y
+CONFIG_ISA=y
 EOF
 ln -s config.mk config.out
 
