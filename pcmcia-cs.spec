@@ -59,7 +59,7 @@ pakiet bêdzie Ci niezbêdny.
 	--target=$RPM_BUILD_ROOT
 
 %{__make} all \
-	CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -Wall -Wstrict-prototypes -pipe" \
+	CFLAGS="%{?debug:-O -g}%{!?debug:$RPM_OPT_FLAGS} -Wall -Wstrict-prototypes -pipe" \
 	CONFIG_PCMCIA=1
 
 %install
