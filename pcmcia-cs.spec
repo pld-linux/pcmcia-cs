@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.26
-Release:	1
+Release:	2
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(pl):	Aplikacje/System
@@ -20,7 +20,7 @@ Obsoletes:	pcmcia-cs-cardinfo
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
-PLD-Linux ystem and contains of a card manager daemon and some
+PLD-Linux system and contains of a card manager daemon and some
 utilities. PCMCIA daemon can respond to card insertion and removal
 events by loading and unloading proper drivers on demand (with hot
 swap support), so that the cards can be safely inserted and ejected at
@@ -36,7 +36,7 @@ narzêdziowych. Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie
 kart PCMCIA, dodaj±c i usuwaj±c odpowiednie drivery (modu³y kernela),
 tak i¿ karty mog± byæ wk³adane i wyjmowane w dowolnym momencie. Modu³y
 kernela obs³uguj±ce sloty kart i same karty zawarte s± w innych
-pakietach, które musz± byæ zainstalowane aby móc korzystaæ kart. Je¶li
+pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart. Je¶li
 posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA, ten
 pakiet bêdzie Ci niezbêdny.
 
@@ -62,7 +62,7 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig},/var/lib/pcmcia}
+install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 
 %{__make} install \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
@@ -88,7 +88,7 @@ else
 	echo "Run \"/etc/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
 fi
 
-%postun
+%preun
 if [ "$1" = "0" ]; then
 	if [ -f /var/state/run/pcmcia ]; then
 		/etc/rc.d/init.d/pcmcia stop 2> /dev/null
