@@ -35,7 +35,7 @@ ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_prefix		/
-%define		_bindir		/bin
+%define		_mandir		/usr/share/man
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
