@@ -1,10 +1,13 @@
-#
-# Conditional build:
-# _without_dist_kernel	- without kernel from distribution
-# _without_x		- without XFree and gtk+
-#
-# TODO: UP/SMP for kernel-pcmcia-wavelan2?
-%define	_rel	0.2
+
+%bcond_without dist_kernel	# without kernel from distribution
+%bcond_without x		# without XFree and GTK+
+%bcond_without smp		# don't build the SMP modules
+
+# TODO:
+# don't build X utilities when --without x
+# xforms support?
+
+%define	_rel	0.3
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	Obs≥uga kart PCMCIA
 Summary(ru):	‰≈ÕœŒ … ’‘…Ã…‘Ÿ ƒÃ— –œÃÿ⁄œ◊¡Œ…— PCMCIA-¡ƒ¡–‘≈“¡Õ…
@@ -32,11 +35,13 @@ Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
 Patch7:		%{name}-major.patch
+Patch8:		%{name}-smp-up.patch
 URL:		http://pcmcia-cs.sourceforge.net/
-%{!?_without_x:BuildRequires:	XFree86-devel}
-%{!?_without_x:BuildRequires:	gtk+-devel}
-%{!?_without_dist_kernel:Requires:	kernel-pcmcia-cs}
-%{!?_without_dist_kernel:BuildRequires:	kernel-source}
+%{?with_x:BuildRequires:	gtk+-devel}
+%if %{with dist_kernel}
+Requires:	kernel(pcmcia)
+BuildRequires:	kernel-source
+%endif
 BuildRequires:	%{kgcc_package}
 BuildRequires:	modutils
 BuildRequires:	rpmbuild(macros) >= 1.118
@@ -44,7 +49,7 @@ Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
-Conflicts:	kernel-pcmcia
+
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
 PLD-Linux system and contains of a card manager daemon and some
@@ -85,18 +90,76 @@ PCMCIA-À¡“‘… - √≈ Õ¡Ã≈ŒÿÀ¶ À¡“‘œﬁÀ…, ›œ Õ¶”‘—‘ÿ ›œ ⁄¡◊«œƒŒœ, ◊¶ƒ
 –¶ƒ‘“…ÕÀ’ “¶⁄ŒœÕ¡Œ¶‘Œ…» PCMCIA-À¡“‘ ◊”¶» ◊…ƒ¶◊ ‘¡ ƒ≈ÕœŒ, ›œ ƒœ⁄◊œÃ—§
 –¶ƒÀÃ¿ﬁ¡‘… ‘¡ ◊¶ƒÀÃ¿ﬁ¡‘… ‘¡À¶ À¡“‘… "Œ¡ »œƒ’".
 
+%package -n kernel-pcmcia-cs
+Summary:	PCMCIA Card Services kernel modules
+Summary(es):	MÛdulos del n˙cleo de PCMCIA Card Services
+Summary(pl):	Modu≥y j±dra PCMCIA Card Services
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Provides:	kernel(pcmcia)
+%{?with_dist_kernel:%requires_releq_kernel_up}
+Requires(post,postun):	/sbin/depmod
+
+%description -n kernel-pcmcia-cs
+Kernel modules for PCMCIA cards from the Card Services package.
+
+%description -n kernel-pcmcia-cs -l es
+MÛdulos del n˙cleo para tarjetas PCMCIA del paquete Card Services.
+
+%description -n kernel-pcmcia-cs -l pl
+Modu≥y j±dra dla kart PCMCIA z pakietu Card Services.
+
 %package -n kernel-pcmcia-wavelan2
 Summary:	Avaya Wireless PC Card - Drivers
 Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-%{!?_without_dist_kernel:%requires_releq_kernel_up}
+%if %{with dist_kernel}
+%requires_releq_kernel_up
+Requires:	kernel(pcmcia)
+%endif
 Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-pcmcia-wavelan2
 wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 
 %description -n kernel-pcmcia-wavelan2 -l pl
+Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
+Silver oraz Gold).
+
+%package -n kernel-smp-pcmcia-cs
+Summary:	PCMCIA Card Services kernel modules
+Summary(pl):	Modu≥y j±dra SMP PCMCIA Card Services
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Provides:	kernel(pcmcia)
+%{?with_dist_kernel:%requires_releq_kernel_smp}
+Requires(post,postun):	/sbin/depmod
+
+%description -n kernel-smp-pcmcia-cs
+SMP kernel modules for PCMCIA cards from the Card Services package.
+
+%description -n kernel-smp-pcmcia-cs -l es
+MÛdulos del n˙cleo SMP para tarjetas PCMCIA del paquete Card Services.
+
+%description -n kernel-smp-pcmcia-cs -l pl
+Modu≥y j±dra SMP dla kart PCMCIA z pakietu Card Services.
+
+%package -n kernel-smp-pcmcia-wavelan2
+Summary:	Avaya Wireless PC Card - Drivers
+Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+%if %{with dist_kernel}
+%requires_releq_kernel_smp
+Requires:	kernel(pcmcia)
+%endif
+Requires(post,postun):	/sbin/depmod
+
+%description -n kernel-smp-pcmcia-wavelan2
+wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
+
+%description -n kernel-smp-pcmcia-wavelan2 -l pl
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
@@ -125,8 +188,10 @@ tar xzvf %{SOURCE4}
 %patch4 -p1
 #%patch5	-p1
 %patch7 -p1
+%patch8 -p1
 
 %build
+%if %{with smp}
 ./Configure \
 	--noprompt \
 	--trust \
@@ -137,7 +202,30 @@ tar xzvf %{SOURCE4}
 	--srctree \
 	--kernel=%{_kernelsrcdir} \
 	--target=$RPM_BUILD_ROOT \
-	--force
+	--force \
+	--smp
+
+%{__make} all \
+	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
+	LDFLAGS="%{rpmldflags}" \
+	CC="%{kgcc}"
+	
+mkdir modules-smp
+mv -f {clients,modules,wireless}/*.o modules-smp
+%endif
+
+./Configure \
+	--noprompt \
+	--trust \
+	--cardbus \
+	--current \
+	--pnp \
+	--apm \
+	--srctree \
+	--kernel=%{_kernelsrcdir} \
+	--target=$RPM_BUILD_ROOT \
+	--force \
+	--up
 
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
@@ -153,9 +241,15 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 	MODDIR=/lib/modules/%{_kernel_ver} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} 
 
+%if %{with smp}
+SMPMODDIR=$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/pcmcia
+mkdir -p $SMPMODDIR
+install modules-smp/*.o $SMPMODDIR
+%endif
+
 # The files that we don't want installed
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia
-rm -f $RPM_BUILD_ROOT/lib/modules/*/net/8390.o*  # it's in the kernel anyway
+rm -f $RPM_BUILD_ROOT/lib/modules/*/*/8390.o  # it's in the kernel anyway
 %ifarch %{ix86}
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/config.orig
 %endif
@@ -191,11 +285,29 @@ if [ "$1" = "0" ]; then
 	/sbin/chkconfig --del pcmcia
 fi
 
-%post   -n kernel-pcmcia-wavelan2
+%post -n kernel-pcmcia-cs
+%depmod %{_kernel_ver}
+
+%postun -n kernel-pcmcia-cs
+%depmod %{_kernel_ver}
+
+%post -n kernel-smp-pcmcia-cs
+%depmod %{_kernel_ver}smp
+
+%postun -n kernel-smp-pcmcia-cs
+%depmod %{_kernel_ver}smp
+
+%post -n kernel-pcmcia-wavelan2
 %depmod %{_kernel_ver}
 
 %postun -n kernel-pcmcia-wavelan2
 %depmod %{_kernel_ver}
+
+%post -n kernel-smp-pcmcia-wavelan2
+%depmod %{_kernel_ver}smp
+
+%postun -n kernel-smp-pcmcia-wavelan2
+%depmod %{_kernel_ver}smp
 
 %files
 %defattr(644,root,root,755)
@@ -205,17 +317,7 @@ fi
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
-#%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/cs89x0.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ieee1394.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/network.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/*.opts
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ieee1394
@@ -232,11 +334,9 @@ fi
 %ifnarch alpha ppc
 %{_datadir}/pnp.ids
 %endif
-%{_mandir}/man4/*
-%{_mandir}/man5/*
-%{_mandir}/man8/*
+%{_mandir}/man*/*
 
-%if %{!?_without_x:1}0
+%if %{with x}
 %files X11
 %defattr(644,root,root,755)
 %{_bindir}/gpccard
@@ -244,10 +344,30 @@ fi
 /usr/X11R6/bin/xcardinfo
 %endif
 
+%files -n kernel-pcmcia-cs
+%defattr(644,root,root,755)
+/lib/modules/%{_kernel_ver}/pcmcia/*
+%exclude /lib/modules/%{_kernel_ver}/pcmcia/wavelan2*
+
+%if %{with smp}
+%files -n kernel-smp-pcmcia-cs
+%defattr(644,root,root,755)
+/lib/modules/%{_kernel_ver}smp/pcmcia/*
+%exclude /lib/modules/%{_kernel_ver}smp/pcmcia/wavelan2*
+%endif
+
 %ifarch %{ix86}
 %files -n kernel-pcmcia-wavelan2
-%defattr(644,root,root,755)
 %doc *wavelan2*
-/lib/modules/%{_kernel_ver}/pcmcia/*
+/lib/modules/%{_kernel_ver}/pcmcia/wavelan2*
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
+%endif
+
+%if %{with smp}
+%ifarch %{ix86}
+%files -n kernel-smp-pcmcia-wavelan2
+%doc *wavelan2*
+/lib/modules/%{_kernel_ver}smp/pcmcia/wavelan2*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
+%endif
 %endif
