@@ -4,18 +4,17 @@
 # _without_x		- without XFree and gtk+
 #
 # TODO: UP/SMP for kernel-pcmcia-wavelan2?
-%define	_rel	1
+%define	_rel	0.1
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.2.4
+Version:	3.2.5
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
-# Source0-md5:	126e2d87e7a8a12e283db37ae82e9e4c
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
@@ -121,7 +120,7 @@ tar xzvf %{SOURCE4}
 tar xzvf %{SOURCE5}
 %patch3 -p1
 %patch4 -p1
-%patch5	-p1
+#%patch5	-p1
 
 %build
 ./Configure \
@@ -229,7 +228,7 @@ fi
 %if %{!?_without_x:1}0
 %files X11
 %defattr(644,root,root,755)
-%{_bindir}/gpccard
+#%{_bindir}/gpccard
 %{_bindir}/xcardinfo
 %endif
 
