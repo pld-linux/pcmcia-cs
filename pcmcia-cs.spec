@@ -67,11 +67,11 @@ Group:		Applications/System
 	--pnp \
 	--apm \
 	--srctree \
-	--kernel=%{_prefix}/src/linux \
+	--kernel=%{_kernelsrcdir} \
 	--target=$RPM_BUILD_ROOT
 
 %{__make} -C cardmgr cardmgr CONFIG_PCMCIA=1 \
-	CPPFLAGS="-Os -I../include -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	CPPFLAGS="-Os -I../include -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
 
@@ -105,12 +105,12 @@ EOF
 ( cd cardmgr; gcc -c io.c )
 
 %{__make} -C cardmgr probe   CONFIG_PCMCIA=1 \
-	CFLAGS="-Os -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc io.o"
 
 %{__make} -C cardmgr cardctl ide_info scsi_info pcinitrd ifport ifuser  CONFIG_PCMCIA=1 \
-	CFLAGS="-Os -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
 
@@ -135,7 +135,7 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 	--pnp \
 	--apm \
 	--srctree \
-	--kernel=%{_prefix}/src/linux \
+	--kernel=%{_kernelsrcdir} \
 	--target=$RPM_BUILD_ROOT
 
 %{__make} all \
