@@ -219,6 +219,7 @@ fi
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
+%dir %{_sysconfdir}/pcmcia
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/*.opts
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
