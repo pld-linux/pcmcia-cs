@@ -1,42 +1,22 @@
-diff -urN pcmcia-cs-3.2.3.org/cardmgr/Makefile pcmcia-cs-3.2.3/cardmgr/Makefile
---- pcmcia-cs-3.2.3.org/cardmgr/Makefile	Tue Feb 11 12:59:34 2003
-+++ pcmcia-cs-3.2.3/cardmgr/Makefile	Tue Feb 11 13:14:24 2003
-@@ -67,28 +67,28 @@
+diff -ur pcmcia-cs-3.1.30-/cardmgr/Makefile pcmcia-cs-3.1.30/cardmgr/Makefile
+--- pcmcia-cs-3.1.30-/cardmgr/Makefile	Wed Feb  7 00:41:40 2001
++++ pcmcia-cs-3.1.30/cardmgr/Makefile	Sat Mar 16 08:13:50 2002
+@@ -54,10 +54,10 @@
  	@mkdir -p .depfiles ; mv $*.d .depfiles
  
  parser: lex_config.o yacc_config.c
 -	$(CC) -O $(CPPFLAGS) -DYYDEBUG=1 -o $@ yacc_config.c lex_config.o
-+	$(CC) -O $(LDFLAGS) $(CPPFLAGS) -DYYDEBUG=1 -o $@ yacc_config.c lex_config.o
- 
- cardinfo.o: cardinfo.c
- 	$(CC) $(CFLAGS) -MD $(CPPFLAGS) $(XCPPFLAGS) -c $<
- 	@mkdir -p .depfiles ; mv $*.d .depfiles
++	$(CC) $(LDFLAGS) -O $(CPPFLAGS) -DYYDEBUG=1 -o $@ yacc_config.c lex_config.o
  
  cardinfo: cardinfo.o
--	$(CC) $< -o $@ $(FLIBS)
-+	$(CC) $(LDFLAGS) $< -o $@ $(FLIBS)
- 
- xcardinfo.o: xcardinfo.c
- 	$(CC) $(CFLAGS) -MD $(CPPFLAGS) $(XCPPFLAGS) -c $<
- 	@mkdir -p .depfiles ; mv $*.d .depfiles
- 
- xcardinfo: xcardinfo.o
--	$(CC) $< -o $@ -L/usr/X11R6/lib -L/usr/X11/lib -lX11 -lXaw
-+	$(CC) $(LDFLAGS) $< -o $@ -L/usr/X11R6/lib -L/usr/X11/lib -lX11 -lXaw
- 
- gpccard.o: gpccard.c
- 	$(CC) -O -Wall -MD $(CPPFLAGS) `gtk-config --cflags` -c $<
- 	@mkdir -p .depfiles ; mv $*.d .depfiles
- 
- gpccard: gpccard.o
--	$(CC) $< -o $@ `gtk-config --libs`
-+	$(CC) $(LDFLAGS) $< -o $@ `gtk-config --libs`
+-	$(CC) $< -o $@ $(FLIBS) -lm
++	$(CC) $(LDFLAGS) $< -o $@ $(FLIBS) -lm
  
  install-cardinfo: cardinfo
  	@mkdir -p $(PREFIX)/usr/X11R6/bin
-diff -urN pcmcia-cs-3.2.3.org/debug-tools/Makefile pcmcia-cs-3.2.3/debug-tools/Makefile
---- pcmcia-cs-3.2.3.org/debug-tools/Makefile	Tue Feb 11 12:59:34 2003
-+++ pcmcia-cs-3.2.3/debug-tools/Makefile	Tue Feb 11 13:14:40 2003
+diff -ur pcmcia-cs-3.1.30-/debug-tools/Makefile pcmcia-cs-3.1.30/debug-tools/Makefile
+--- pcmcia-cs-3.1.30-/debug-tools/Makefile	Wed Feb  7 00:41:40 2001
++++ pcmcia-cs-3.1.30/debug-tools/Makefile	Sat Mar 16 08:13:21 2002
 @@ -52,10 +52,10 @@
  	@mkdir -p .depfiles ; mv $*.d .depfiles
  
