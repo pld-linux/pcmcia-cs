@@ -1,6 +1,8 @@
 %define	_rel	6
-Summary:	PCMCIA card services
+Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
+Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
+Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
 Release:	%{_rel}
@@ -46,6 +48,24 @@ kernela obsЁuguj╠ce sloty kart i same karty zawarte s╠ w innych
 pakietach, ktСre musz╠ byФ zainstalowane aby mСc korzystaФ z kart.
 Je╤li posiadasz laptopa albo te© TwСj system wykorzystuje karty
 PCMCIA, ten pakiet bЙdzie Ci niezbЙdny.
+
+%description utils -l ru
+Многие лаптопы, ноутбуки и другие машины поддерживают расширение при
+помощи PCMCIA-карт. Известные также как "credit card adapters",
+PCMCIA-карты - это маленькие карточки, включающие все, что угодно, от
+поддержки SCSI до модемов. Они довольно удобны тем, что могут быть
+подключены и отключены без перезагрузки машины. Настоящий пакет
+содержит поддержку разнообразных PCMCIA-карт всех разновидностей и
+демон, который позволяет подключать и отключать такие карты "на ходу".
+
+%description utils -l uk
+Багато лаптоп╕в, ноутбук╕в та ╕нших машин п╕дтримують розширення за
+допомогою PCMCIA-карт. В╕дом╕ також як "credit card adapters",
+PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
+п╕дтримки SCSI до модем╕в. Вони досить зручн╕ тим, що можуть бути
+п╕дключен╕ та в╕дключен╕ без перезагрузки машини. Цей пакет м╕стить
+п╕дтримку р╕зноман╕тних PCMCIA-карт вс╕х вид╕в та демон, що дозволя╓
+п╕дключати та в╕дключати так╕ карти "на ходу".
 
 %package -n kernel-pcmcia-wavelan2
 Summary:	Avaya Wireless PC Card - Drivers
