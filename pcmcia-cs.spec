@@ -1,10 +1,10 @@
-%define	_rel	8
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
+%define	_rel	8
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
