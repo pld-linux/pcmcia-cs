@@ -1,8 +1,8 @@
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
-Version:	3.1.24
-Release:	2
+Version:	3.1.25
+Release:	1
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(pl):	Aplikacje/System
