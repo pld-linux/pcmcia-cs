@@ -1,14 +1,12 @@
 
 %bcond_without dist_kernel	# without kernel from distribution
 %bcond_without x		# without XFree and GTK+
+%bcond_without xforms		# don't build the XForms version of cardinfo
 %bcond_without smp		# don't build the SMP modules
 
-# TODO:
-# don't build X utilities when --without x
-# xforms support?
-
-%define	_rel	0.3
+%define	_rel	1
 Summary:	Daemon and utilities for using PCMCIA adapters
+Summary(es):	Demonio y herramientas para usar adaptadores PCMCIA
 Summary(pl):	Obs³uga kart PCMCIA
 Summary(ru):	äÅÍÏÎ É ÕÔÉÌÉÔÙ ÄÌÑ ÐÏÌØÚÏ×ÁÎÉÑ PCMCIA-ÁÄÁÐÔÅÒÁÍÉ
 Summary(uk):	äÅÍÏÎ ÔÁ ÕÔÉÌ¦ÔÉ ÄÌÑ ËÏÒÉÓÔÕ×ÁÎÎÑ PCMCIA-ÁÄÁÐÔÅÒÁÍÉ
@@ -36,8 +34,10 @@ Patch4:		%{name}-realtek_cb-support.patch
 Patch5:		%{name}-orinoco.patch
 Patch7:		%{name}-major.patch
 Patch8:		%{name}-smp-up.patch
+Patch9:		%{name}-no-lib-detect.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x:BuildRequires:	gtk+-devel}
+%{?with_xforms:BuildRequires:	xforms-devel}
 %if %{with dist_kernel}
 Requires:	kernel(pcmcia)
 BuildRequires:	kernel-source
@@ -48,7 +48,6 @@ BuildRequires:	rpmbuild(macros) >= 1.118
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Obsoletes:	pcmcia-cs-cardinfo
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
@@ -60,6 +59,17 @@ any time. This package does not contain kernel modules (ie. socket and
 card drivers) that come with another package that must be installed
 for full PCMCIA support. If you own a laptop or your system uses
 PCMCIA cards this package is a must.
+
+%description -l es
+El paquete pcmcia-cs añade el soporte de tarjetas PCMCIA a su sistema
+PLD-Linux y consiste de un demonio de manejador de tarjetas y unas
+herramientas. El demonio PCMCIA responde a los eventos de inserción
+y extracción cargando y descargando los drivers adecuados (con soporte
+de "hot swap") así, que las tarjetas se pueden insertar y extraer en
+cualquier momento. Este paquete no contiene módulos de núcleo, los que
+están incluidos en otro paquete que tiene que estar instalado para
+obtener soporte completo de PCMCIA. Si posee un portátil o su sistema
+usa tarjetas PCMCIA, este paquete será indispensable.
 
 %description -l pl
 Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w
@@ -111,6 +121,7 @@ Modu³y j±dra dla kart PCMCIA z pakietu Card Services.
 
 %package -n kernel-pcmcia-wavelan2
 Summary:	Avaya Wireless PC Card - Drivers
+Summary(es):	Tarjetas PCMCIA inalámbricas de Avaya - Drivers
 Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
@@ -123,12 +134,17 @@ Requires(post,postun):	/sbin/depmod
 %description -n kernel-pcmcia-wavelan2
 wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 
+%description -n kernel-pcmcia-wavelan2 -l es
+El driver wavelan2 para tarjetas PCMCIA inalámbricas Avaya (Silver y
+Gold).
+
 %description -n kernel-pcmcia-wavelan2 -l pl
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
 %package -n kernel-smp-pcmcia-cs
 Summary:	PCMCIA Card Services kernel modules
+Summary(es):	Módulos del núcleo de PCMCIA Card Services
 Summary(pl):	Modu³y j±dra SMP PCMCIA Card Services
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
@@ -147,6 +163,7 @@ Modu³y j±dra SMP dla kart PCMCIA z pakietu Card Services.
 
 %package -n kernel-smp-pcmcia-wavelan2
 Summary:	Avaya Wireless PC Card - Drivers
+Summary(es):	Tarjetas PCMCIA inalámbricas de Avaya - Drivers
 Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
@@ -159,21 +176,50 @@ Requires(post,postun):	/sbin/depmod
 %description -n kernel-smp-pcmcia-wavelan2
 wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 
+%description -n kernel-pcmcia-wavelan2 -l es
+El driver wavelan2 para tarjetas PCMCIA inalámbricas Avaya (Silver y
+Gold).
+
 %description -n kernel-smp-pcmcia-wavelan2 -l pl
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
 %package X11
 Summary:	X11 Status Monitor
+Summary(es):	Monitor del estado para X11
 Summary(pl):	Monitor dla X11
 Release:	%{_rel}
 Group:		X11/Applications
+Requires:	%{name} = %{version}-%{_rel}
 
 %description X11
 X11 Monitor for PCMCIA.
 
+%description X11 -l es
+Monitador de PCMCIA para X11.
+
 %description X11 -l pl
 Monitorowanie PCMCIA pod X Window.
+
+%package cardinfo
+Summary:	PCMCIA cardinfo utility
+Summary(es):	Herramienta de PCMCIA cardinfo
+Summary(pl):	Narzêdzie PCMCIA cardinfo
+Release:	%{_rel}
+Group:		X11/Applications
+Requires:	%{name} = %{version}-%{_rel}
+
+%description cardinfo
+This package contains the XForms version of the cardinfo utility (whose
+basic version is contained in the %{name}-X11 package).
+
+%description cardinfo -l es
+Este paquete contiene la versión XForms de la herramienta cardinfo (cuya
+versión básica se encuentra en el paquete %{name}-X11).
+
+%description cardinfo -l pl
+Ten pakiet zawiera wersjê XForms narzêdzia cardinfo (jego podstawowa
+wersja znajduje siê w pakiecie %{name}-X11).
 
 %prep
 %setup -q
@@ -189,20 +235,21 @@ tar xzvf %{SOURCE4}
 #%patch5	-p1
 %patch7 -p1
 %patch8 -p1
+%patch9 -p1
 
 %build
+CONFIGOPTS="--noprompt --trust --cardbus --current --pnp --apm --srctree --force"
+%if %{with x}
+CONFIGOPTS="$CONFIGOPTS --has-xaw --has-gtk"
+%endif
+%if %{with xforms}
+CONFIGOPTS="$CONFIGOPTS --has-forms"
+%endif
 %if %{with smp}
 ./Configure \
-	--noprompt \
-	--trust \
-	--cardbus \
-	--current \
-	--pnp \
-	--apm \
-	--srctree \
+	$CONFIGOPTS \
 	--kernel=%{_kernelsrcdir} \
 	--target=$RPM_BUILD_ROOT \
-	--force \
 	--smp
 
 %{__make} all \
@@ -215,16 +262,9 @@ mv -f {clients,modules,wireless}/*.o modules-smp
 %endif
 
 ./Configure \
-	--noprompt \
-	--trust \
-	--cardbus \
-	--current \
-	--pnp \
-	--apm \
-	--srctree \
+	$CONFIGOPTS \
 	--kernel=%{_kernelsrcdir} \
 	--target=$RPM_BUILD_ROOT \
-	--force \
 	--up
 
 %{__make} all \
@@ -240,6 +280,8 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 %{__make} install \
 	MODDIR=/lib/modules/%{_kernel_ver} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} 
+# Move the X11 binaries, if any
+mv $RPM_BUILD_ROOT%{_bindir}/* $RPM_BUILD_ROOT/usr/X11R6/bin || :
 
 %if %{with smp}
 SMPMODDIR=$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/pcmcia
@@ -339,9 +381,14 @@ fi
 %if %{with x}
 %files X11
 %defattr(644,root,root,755)
-%{_bindir}/gpccard
-#%{_xbindir}/xcardinfo
-/usr/X11R6/bin/xcardinfo
+%attr(755,root,root) /usr/X11R6/bin/*
+%exclude /usr/X11R6/bin/cardinfo
+%endif
+
+%if %{with xforms}
+%files cardinfo
+%defattr(644,root,root,755)
+%attr(755,root,root) /usr/X11R6/bin/cardinfo
 %endif
 
 %files -n kernel-pcmcia-cs
