@@ -32,11 +32,12 @@ Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
+Patch6:		%{name}-gtk+2.patch
 Patch7:		%{name}-major.patch
 Patch8:		%{name}-smp-up.patch
 Patch9:		%{name}-no-lib-detect.patch
 URL:		http://pcmcia-cs.sourceforge.net/
-%{?with_x:BuildRequires:	gtk+-devel}
+%{?with_x:BuildRequires:	gtk+2-devel}
 %{?with_xforms:BuildRequires:	xforms-devel}
 %if %{with dist_kernel}
 Requires:	kernel(pcmcia)
@@ -233,6 +234,7 @@ tar xzvf %{SOURCE4}
 %patch3 -p1
 %patch4 -p1
 #%patch5	-p1
+%patch6 -p1
 %patch7 -p1
 %patch8 -p1
 %patch9 -p1
