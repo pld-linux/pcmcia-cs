@@ -25,7 +25,7 @@ Patch4:		%{name}-realtek_cb-support.patch
 Patch5:		%{name}-major.patch
 Patch6:		%{name}-original-config.patch
 Patch7:		%{name}-build.patch
-Patch8:		%{name}-amd6.patch
+Patch8:		%{name}-amd64.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x11:BuildRequires:	XFree86-devel}
 BuildRequires:	rpmbuild(macros) >= 1.118
