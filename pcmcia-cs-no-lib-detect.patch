@@ -1,0 +1,66 @@
+--- pcmcia-cs-3.2.5/Configure.old	2003-10-24 17:37:00.000000000 +0200
++++ pcmcia-cs-3.2.5/Configure	2003-10-24 17:39:51.000000000 +0200
+@@ -106,6 +106,9 @@
+     exit 1
+ }
+ 
++HAS_XAW=n
++HAS_GTK=n
++HAS_FORMS=n
+ while [ $# -gt 0 ] ; do
+     case "$1" in
+     -n|--noprompt)	PROMPT=n		;;
+@@ -137,6 +140,9 @@
+     --extraver=*)	arg EXTRAVER "$1"	;;
+     --smp)		CONFIG_SMP=y		;;
+     --up)		CONFIG_SMP=n		;;
++    --has-xaw)		HAS_XAW=y		;;
++    --has-gtk)		HAS_GTK=y		;;
++    --has-forms)	HAS_FORMS=y		;;
+     *)			usage			;;
+     esac
+     shift
+@@ -982,43 +988,16 @@
+ 
+ # Optional stuff
+ 
+-HAS_FORMS=n
+-echo "#include <forms.h>" > tmp.c
+-echo "int main(void) { void *x = &fl_initialize; return 0; }" >> tmp.c
+ XINCS="-I/usr/X11R6/include -I/usr/X11/include -I/usr/X11R6/include/X11"
+ FLIBS="-L/usr/X11R6/lib -L/usr/X11/lib -lforms -lX11 -lm"
+-if $UCC $UFLAGS $XINCS tmp.c $FLIBS 2>/dev/null ; then
+-    HAS_FORMS=y
+-elif $UCC $UFLAGS $XINCS tmp.c $FLIBS -lXpm 2>/dev/null ; then
+-    FLIBS="$FLIBS -lXpm"
+-    HAS_FORMS=y
+-fi
+ write_bool HAS_FORMS
+ if [ "$HAS_FORMS" = "y" ] ; then write_str FLIBS ; fi
+ if [ "$HAS_FORMS" != "y" ] ; then
+     echo "The Forms library is not available."
+ fi
+ 
+-HAS_XAW=n
+-echo "#include <X11/Xaw/XawInit.h>" > tmp.c
+-echo "int main() { void *x = &XawInitializeWidgetSet; return 0; }" >> tmp.c
+-if $UCC $UFLAGS $XINCS tmp.c -L/usr/X11R6/lib -L/usr/X11/lib \
+-    -lX11 -lXaw 2>/dev/null ; then
+-    HAS_XAW=y
+-else
+-    echo "The X11/Xaw libraries are not available."
+-fi
+ write_bool HAS_XAW
+ 
+-HAS_GTK=n
+-echo "#include <gtk/gtk.h>" > tmp.c
+-echo "int main(void) { void *x = &gtk_init; return 0; }" >> tmp.c
+-if $UCC $UFLAGS `gtk-config --cflags 2>/dev/null` tmp.c \
+-    `gtk-config --libs 2>/dev/null` 2>/dev/null ; then
+-    HAS_GTK=y
+-else
+-    echo "The GTK+ library is not available."
+-fi
+ write_bool HAS_GTK
+ 
+ HAS_WORDEXP=n
