@@ -1,26 +1,31 @@
-%define	_rel	8	
+%define	_rel	1
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.2.0
+Version:	3.2.3
 Release:	%{_rel}
-License:	MPL (Mozilla Public License)
+License:	MPL
 Group:		Applications/System
-Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
-Patch0:		%{name}-manfid_0175.patch
+Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
+Patch0:		%{name}-path.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
 Patch3:		%{name}-man.patch
-URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
+Patch4:		%{name}-realtek_cb-support.patch
+URL:		http://pcmcia-cs.sourceforge.net/
+%{!?_without_dist_kernel:Requires:     kernel-pcmcia-cs}
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
 BuildRequires:	%{kgcc_package}
+BuildRequires:	XFree86-devel
+BuildRequires:	gtk+-devel
 PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -81,15 +86,29 @@ wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
+%package X11
+Summary:	X11 Status Monitor
+Summary(pl):	Monitor dla X11
+Release:	%{_rel}
+Group:		X11/Applications
+
+%description X11
+X11 Monitor for PCMCIA.
+
+%description X11
+Monitorowanie PCMCIA pod X Window.
+
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %ifarch %{ix86}
 tar xzvf %{SOURCE4}
 %patch2 -p1
 %endif
+tar xzvf %{SOURCE5}
 %patch3 -p1
+%patch4 -p1
 
 %build
 ./Configure \
@@ -135,7 +154,9 @@ rm -rf $RPM_BUILD_ROOT
 %post
 chkconfig --add pcmcia
 if [ -f /var/lock/subsys/pcmcia ]; then
-	/etc/rc.d/init.d/pcmcia restart 2> /dev/null
+	echo "You may run \"/etc/rc.d/init.d/pcmcia restart\" to restart with new version"
+	echo "of pcmcia cardbus daemon. Note that if you changed your kernel, restarting"
+	echo "pcmcia subsystem may cause problems if not rebooted before."
 else
 	echo "Run \"/etc/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
 fi
@@ -163,16 +184,16 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/cs89x0.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ieee1394.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/network.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
-%ifarch %{ix86}
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
-%endif
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
 %attr(754,root,root) %{_sysconfdir}/pcmcia/memory
@@ -192,9 +213,15 @@ fi
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
+%files X11
+%defattr(644,root,root,755)
+%{_bindir}/gpccard
+%{_bindir}/xcardinfo
+
 %ifarch %{ix86}
 %files -n kernel-pcmcia-wavelan2
 %defattr(644,root,root,755)
 %doc *wavelan2*
 /lib/modules/%{_kernel_ver}/pcmcia/*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
 %endif
