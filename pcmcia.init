@@ -50,9 +50,9 @@ case "$1" in
 			PC=/lib/modules/`uname -r`/pcmcia
 		fi
 		if [ -d $PC ] ; then
-			/sbin/insmod $PC/pcmcia_core.o.gz $CORE_OPTS
-			/sbin/insmod $PC/$PCIC.o.gz $PCIC_OPTS
-			/sbin/insmod $PC/ds.o.gz
+			/sbin/insmod $PC/pcmcia_core.o* $CORE_OPTS
+			/sbin/insmod $PC/$PCIC.o* $PCIC_OPTS
+			/sbin/insmod $PC/ds.o*
 			deltext
 			ok
 		else
