@@ -12,6 +12,11 @@
 action=$1
 device=$2
 
+if [ ! -f /var/lock/subsys/network ]; then
+    exit 0
+fi
+
+
 case "${action:?}" in
 'start')
 	/sbin/ifup ${device} boot
