@@ -5,8 +5,6 @@ Version:	3.1.30
 Release:	1
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
@@ -48,8 +46,6 @@ PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 %package BOOT
 Summary:	%{name} for bootdisk
 Group:		Applications/System
-Group(de):	Applikationen/System
-Group(pl):	Aplikacje/System
 
 %description BOOT
 %{name} for bootdisk.
