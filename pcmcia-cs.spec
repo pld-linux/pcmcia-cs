@@ -153,7 +153,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc SUPPORTED.CARDS CHANGES COPYING README{,-2.4}
-%doc LICENSE doc/PCMCIA-HOWT doc/PCMCIA-PROG
+%doc LICENSE doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
