@@ -1,0 +1,10 @@
+--- pcmcia-cs-3.2.5/clients/parport_cs.c.orig	2003-10-17 20:41:28.000000000 +0200
++++ pcmcia-cs-3.2.5/clients/parport_cs.c	2003-10-17 20:42:01.000000000 +0200
+@@ -46,6 +46,7 @@
+ 
+ #include <linux/parport.h>
+ #include <linux/parport_pc.h>
++#include <linux/major.h>
+ 
+ #include <pcmcia/version.h>
+ #include <pcmcia/cs_types.h>
