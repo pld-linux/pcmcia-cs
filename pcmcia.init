@@ -21,10 +21,7 @@
 
 if is_no "${PCMCIA}" ; then exit 0 ; fi
 
-if [ "$PCIC" = "" ] ; then
-	echo "PCIC not defined in /etc/sysconfig/pcmcia"
-	exit 1
-fi
+[ -z "$PCIC" ] && PCIC="yenta_socket"
 
 cleanup()
 {
