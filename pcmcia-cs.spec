@@ -4,7 +4,7 @@
 # _without_x		- without XFree and gtk+
 #
 # TODO: UP/SMP for kernel-pcmcia-wavelan2?
-%define	_rel	0.1
+%define	_rel	0.2
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
@@ -23,6 +23,7 @@ Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6
 # Source4-md5:	8b1829e3554ba15d400ab367e6851437
 Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
 # Source5-md5:	7ef76ff6b798e426f62efac7f4abf636
+
 Patch0:		%{name}-path.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
@@ -30,6 +31,7 @@ Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
+Patch6:		%{name}-forcebuild.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_x:BuildRequires:	XFree86-devel}
 %{!?_without_x:BuildRequires:	gtk+-devel}
@@ -42,7 +44,7 @@ Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
-
+Conflicts:	kernel-pcmcia
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
 PLD-Linux system and contains of a card manager daemon and some
@@ -112,16 +114,17 @@ Monitorowanie PCMCIA pod X Window.
 
 %prep
 %setup -q
-%patch0 -p1
+
 %patch1 -p1
 %ifarch %{ix86}
 tar xzvf %{SOURCE4}
 %patch2 -p1
 %endif
-tar xzvf %{SOURCE5}
+#tar xzvf %{SOURCE5}
 %patch3 -p1
 %patch4 -p1
 #%patch5	-p1
+%patch6 -p1
 
 %build
 ./Configure \
@@ -138,8 +141,7 @@ tar xzvf %{SOURCE5}
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
 	LDFLAGS="%{rpmldflags}" \
-	CC="%{kgcc}" \
-	CONFIG_PCMCIA=1
+	CC="%{kgcc}" 
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -148,8 +150,7 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 
 %{__make} install \
 	MODDIR=/lib/modules/%{_kernel_ver} \
-	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
-	CONFIG_PCMCIA=1 \
+	MANDIR=$RPM_BUILD_ROOT%{_mandir} 
 
 # Install our own network up/down script
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
@@ -197,7 +198,7 @@ fi
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
-%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/cs89x0.opts
+#%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/cs89x0.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ieee1394.opts
@@ -229,8 +230,9 @@ fi
 %if %{!?_without_x:1}0
 %files X11
 %defattr(644,root,root,755)
-#%{_bindir}/gpccard
-%{_bindir}/xcardinfo
+%{_bindir}/gpccard
+#%{_xbindir}/xcardinfo
+/usr/X11R6/bin/xcardinfo
 %endif
 
 %ifarch %{ix86}
