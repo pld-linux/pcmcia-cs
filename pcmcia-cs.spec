@@ -34,6 +34,10 @@ Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
+%ifarch ppc
+%undefine	with_x11
+%endif
+
 %define		_prefix		/
 %define		_bindir		/bin
 
