@@ -3,3 +3,4 @@ PCIC=i82365
 # for 2.4 kernels
 # PCIC=yenta_socket
 PCIC_OPTS=
+CORE_OPTS=
