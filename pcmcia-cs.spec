@@ -132,4 +132,4 @@ lisa --SysV-init remove pcmcia $1
 %ChangeLog
 * Mon Jan 01 1997 ...
 
-$Id: pcmcia-cs.spec,v 1.2 1999-05-17 10:23:24 kloczek Exp $
+$Id: pcmcia-cs.spec,v 1.3 1999-07-09 16:22:11 kloczek Exp $
