@@ -37,6 +37,7 @@ URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	%{kgcc_package}
 BuildRequires:	modutils
+BuildRequires:	rpmbuild(macros) >= 1.118
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -182,10 +183,10 @@ if [ "$1" = "0" ]; then
 fi
 
 %post   -n kernel-pcmcia-wavelan2
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}
 
 %postun -n kernel-pcmcia-wavelan2
-/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
+%depmod %{_kernel_ver}
 
 %files
 %defattr(644,root,root,755)
