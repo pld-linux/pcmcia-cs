@@ -11,7 +11,6 @@ Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
-Patch0:		%{name}-no_xforms.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 Prereq:		chkconfig
@@ -43,7 +42,6 @@ pakiet bêdzie Ci niezbêdny.
 
 %prep
 %setup -q
-%patch -p1
 
 %build
 %{!?debug:LDFLAGS="-s"; export LDFLAGS}
