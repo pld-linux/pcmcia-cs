@@ -4,7 +4,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
-%define	_rel	13
+%define	_rel	14
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
@@ -134,7 +134,9 @@ rm -rf $RPM_BUILD_ROOT
 %post
 chkconfig --add pcmcia
 if [ -f /var/lock/subsys/pcmcia ]; then
-	/etc/rc.d/init.d/pcmcia restart 2> /dev/null
+	echo "You may run \"/etc/rc.d/init.d/pcmcia restart\" to restart with new version"
+	echo "of pcmcia cardbus daemon. Note that if you changed your kernel, restarting"
+	echo "pcmcia subsystem may cause problems if not rebooted before."
 else
 	echo "Run \"/etc/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
 fi
