@@ -3,11 +3,12 @@ Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.20
 Release:	1
-Group:		Utilities/System
-Group(pl):	Narzêdzia/System
+Group:		Applications/System
+Group(pl):	Aplikacje/System
+Group(de):	Applikationen/System
 License:	MPL (Mozilla Public License)
 Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
-Source1:	pcmcia-cs-network.script
+Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
@@ -42,7 +43,9 @@ pakiet bêdzie Ci niezbêdny.
 %package cardinfo
 Summary:	PCMCIA card monitor and control utility for X
 Summary(pl):	Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów
-Group:		Utilities/System
+Group:		Applications/System
+Group(pl):	Aplikacje/System
+Group(de):	Applikationen/System
 Requires:	xforms
 
 %description cardinfo
@@ -81,7 +84,7 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmci
 	CONFIG_PCMCIA=1
 
 # Install our own network up/down script
-mv $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
+mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
 install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
@@ -90,7 +93,7 @@ gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*} \
 	SUPPORTED.CARDS CHANGES COPYING README LICENSE \
 	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 
-mv $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1.gz \
+mv -f $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1.gz \
   $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1x.gz
 
 %clean
