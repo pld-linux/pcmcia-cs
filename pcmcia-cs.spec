@@ -6,7 +6,7 @@ Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
 Release:	%{_rel}
-License:	Mozilla Public License
+License:	MPL
 Group:		Applications/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
