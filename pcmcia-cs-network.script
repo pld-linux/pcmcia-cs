@@ -1,6 +1,7 @@
 #! /bin/sh
 #
 # network.sample $Revision$ $Date$ (David Hinds)
+# $Id$
 #
 # Initialize or shutdown a PCMCIA ethernet adapter
 #
@@ -13,12 +14,17 @@ device=$2
 
 case "${action:?}" in
 'start')
-	/sbin/ifup ${device}
+	/sbin/ifup ${device} boot
     ;;
 'stop')
-	/sbin/ifdown ${device}
+	/sbin/ifdown ${device} boot
+	# to be always sure that device is down in case when it was
+	# configured and up and then iface configuration was deleted
+	ip link set ${device} down > /dev/null 2>&1
+	ip addr flush dev ${device} > /dev/null 2>&1
     ;;
 'restart')
-	/sbin/ifdown ${device} ; /sbin/ifup ${device}
+	$0 stop ${device}
+	$0 start ${device}
     ;;
 esac
