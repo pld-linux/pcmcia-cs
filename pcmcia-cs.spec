@@ -32,6 +32,7 @@ Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
 Patch6:		%{name}-forcebuild.patch
+Patch7:		%{name}-major.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_x:BuildRequires:	XFree86-devel}
 %{!?_without_x:BuildRequires:	gtk+-devel}
@@ -125,6 +126,7 @@ tar xzvf %{SOURCE4}
 %patch4 -p1
 #%patch5	-p1
 %patch6 -p1
+%patch7 -p1
 
 %build
 ./Configure \
