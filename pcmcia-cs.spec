@@ -31,12 +31,12 @@ Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
 URL:		http://pcmcia-cs.sourceforge.net/
-%{!?_without_dist_kernel:Requires:     kernel-pcmcia-cs}
-%{!?_without_dist_kernel:BuildRequires:	kernel-source}
-BuildRequires:	modutils
-BuildRequires:	%{kgcc_package}
 %{!?_without_x:BuildRequires:	XFree86-devel}
 %{!?_without_x:BuildRequires:	gtk+-devel}
+%{!?_without_dist_kernel:Requires:     kernel-pcmcia-cs}
+%{!?_without_dist_kernel:BuildRequires:	kernel-source}
+BuildRequires:	%{kgcc_package}
+BuildRequires:	modutils
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
