@@ -40,10 +40,84 @@ pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart. Je¶li
 posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA, ten
 pakiet bêdzie Ci niezbêdny.
 
+%if %{?BOOT:1}%{!?BOOT:0}
+%package BOOT
+Summary:	%{name} for bootdisk
+Group:		Applications/System
+%description BOOT
+%endif
+
+
 %prep
 %setup -q
 
 %build
+
+%if %{?BOOT:1}%{!?BOOT:0}
+./Configure \
+	--noprompt \
+	--trust \
+	--cardbus \
+	--current \
+	--pnp \
+	--apm \
+	--srctree \
+	--kernel=%{_prefix}/src/linux \
+	--target=$RPM_BUILD_ROOT
+
+## my god why does cardmgr require yacc and lex ??????????????
+%{__make} -C cardmgr cardmgr CONFIG_PCMCIA=1 LDFLAGS="-s -static"
+
+## uClibc lacks outb and family required by probe
+## TODO: support for other arch than intel
+cat <<EOF >cardmgr/io.c
+inline void 
+outb (unsigned char value, unsigned short int port) { 
+  asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port)); 
+}
+inline void 
+outw (unsigned short int value, unsigned short int port) {
+  asm volatile ("outw %w0,%w1": :"a" (value), "Nd" (port));
+}
+
+inline unsigned char 
+inb (unsigned short int port) {
+  unsigned char _v;
+  asm volatile ("inb %w1,%0":"=a" (_v):"Nd" (port));
+  return _v;
+}
+
+inline unsigned short int 
+inw (unsigned short int port) {
+  unsigned short _v;
+  asm volatile ("inw %w1,%0":"=a" (_v):"Nd" (port));
+  return _v;
+}
+EOF
+
+( cd cardmgr; gcc -c io.c )
+
+%{__make} -C cardmgr probe   CONFIG_PCMCIA=1 \
+	CFLAGS="-Os -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	LDFLAGS="-nostdlib -static -s" \
+	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc io.o"
+
+%{__make} -C cardmgr ide_info scsi_info pcinitrd ifport ifuser  CONFIG_PCMCIA=1 \
+	CFLAGS="-Os -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
+	LDFLAGS="-nostdlib -static -s" \
+	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
+
+mv -f cardmgr/cardmgr cardmgr-BOOT
+mv -f cardmgr/probe probe-BOOT
+mv -f cardmgr/ifuser ifuser-BOOT
+mv -f cardmgr/ifport ifport-BOOT
+mv -f cardmgr/ide_info ide_info-BOOT
+mv -f cardmgr/scsi_info scsi_info-BOOT
+#mv -f cardmgr/pcinitrd pcinitrd-BOOT
+%{__make} clean
+%endif
+
+
 LDFLAGS="%{rpmldflags}"; export LDFLAGS
 ./Configure \
 	--noprompt \
@@ -62,6 +136,18 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
+%if %{?BOOT:1}%{!?BOOT:0}
+install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin
+for i in *-BOOT; do 
+  install -s $i $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/`basename $i -BOOT`
+done
+
+install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia
+cp -a etc/* $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia
+install %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia/network
+%endif
+
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 
 %{__make} install \
@@ -102,7 +188,6 @@ fi
 %doc doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
-
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config %verify(not size mtime md5) /etc/sysconfig/pcmcia
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
@@ -131,3 +216,11 @@ fi
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
+
+
+%if %{?BOOT:1}%{!?BOOT:0}
+%files BOOT
+%defattr(644,root,root,755)
+%attr(755,root,root) /usr/lib/bootdisk/sbin/*
+/usr/lib/bootdisk/%{_sysconfdir}/pcmcia
+%endif
