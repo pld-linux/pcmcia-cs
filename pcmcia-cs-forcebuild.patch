@@ -1,0 +1,14 @@
+--- pcmcia-cs-3.2.5.orig/Makefile	2003-10-15 08:35:39.000000000 +0000
++++ pcmcia-cs-3.2.5/Makefile	2003-10-15 07:00:19.000000000 +0000
+@@ -8,9 +8,9 @@
+ 
+ ALL  = modules clients wireless cardmgr flash debug-tools man etc
+ DIRS = cardmgr flash debug-tools man etc
+-ifndef CONFIG_PCMCIA
++#ifndef CONFIG_PCMCIA
+ DIRS := modules clients wireless $(DIRS)
+-endif
++#endif
+ 
+ help:
+ 	@echo "Pick one of the following targets:"
