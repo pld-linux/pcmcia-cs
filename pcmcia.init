@@ -28,11 +28,11 @@ fi
 
 cleanup()
 {
-    while read SN CLASS MOD INST DEV EXTRA ; do
+while read SN CLASS MOD INST DEV EXTRA ; do
 	if [ "$SN" != "Socket" ] ; then
-	    /etc/pcmcia/$CLASS stop $DEV 2> /dev/null
+		/etc/pcmcia/$CLASS stop $DEV 2> /dev/null
 	fi
-    done
+done
 }
 
 case "$1" in
@@ -44,52 +44,52 @@ case "$1" in
 	if [ "$SCHEME" ] ; then umask 022 ; echo $SCHEME > $SC ; fi
 	fgrep -q pcmcia /proc/devices
 	if [ $? -ne 0 ] ; then
-	    if [ -d /lib/modules/preferred ] ; then
-		PC=/lib/modules/preferred/pcmcia
-	    else
-		PC=/lib/modules/`uname -r`/pcmcia
-	    fi
-	    if [ -d $PC ] ; then
-		/sbin/insmod $PC/pcmcia_core.o $CORE_OPTS
-		/sbin/insmod $PC/$PCIC.o $PCIC_OPTS
-		/sbin/insmod $PC/ds.o
-		deltext
-		ok
-	    else
-		deltext
-		fail
-		exit 1
-	    fi
+		if [ -d /lib/modules/preferred ] ; then
+			PC=/lib/modules/preferred/pcmcia
+		else
+			PC=/lib/modules/`uname -r`/pcmcia
+		fi
+		if [ -d $PC ] ; then
+			/sbin/insmod $PC/pcmcia_core.o $CORE_OPTS
+			/sbin/insmod $PC/$PCIC.o $PCIC_OPTS
+			/sbin/insmod $PC/ds.o
+			deltext
+			ok
+		else
+			deltext
+			fail
+			exit 1
+		fi
 	fi
 	if [ -s /var/run/cardmgr.pid ] && \
-	    kill -0 `cat /var/run/cardmgr.pid` 2>/dev/null ; then
-	    msg_Already_Running cardmgr
+		kill -0 `cat /var/run/cardmgr.pid` 2>/dev/null ; then
+		msg_Already_Running cardmgr
 	else
-	    msg_starting cardmgr
-	    busy
-	    if [ -r /var/lib/pcmcia/stab ] ; then
-		cat /var/lib/pcmcia/stab | cleanup
-	    fi
-	    /sbin/cardmgr $CARDMGR_OPTS
-	    deltext
-	    ok
+		msg_starting cardmgr
+		busy
+		if [ -r /var/lib/pcmcia/stab ] ; then
+			cat /var/lib/pcmcia/stab | cleanup
+		fi
+		/sbin/cardmgr $CARDMGR_OPTS
+		deltext
+		ok
 	fi
 	touch /var/lock/subsys/pcmcia
 	;;
     stop)
 	if [ -s /var/run/cardmgr.pid ] ; then
-	    msg_stopping cardmgr
-	    killproc cardmgr
-	    rm -f /var/lock/subsys/pcmcia
+		msg_stopping cardmgr
+		killproc cardmgr
+		rm -f /var/lock/subsys/pcmcia
 	else
-	    msg_Not_Running cardmgr
+		msg_Not_Running cardmgr
 	fi
 	show "Unloading PCMCIA modules"
 	busy
 	if fgrep -q "ds  " /proc/modules ; then
-	    /sbin/rmmod ds
-	    /sbin/rmmod $PCIC
-	    /sbin/rmmod pcmcia_core
+		/sbin/rmmod ds
+		/sbin/rmmod $PCIC
+		/sbin/rmmod pcmcia_core
 	fi
 	deltext
 	ok
