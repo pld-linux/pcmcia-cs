@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.30
-Release:	1
+Release:	2
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
