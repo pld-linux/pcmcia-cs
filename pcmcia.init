@@ -44,7 +44,6 @@ case "$1" in
 	fgrep -q pcmcia /proc/devices
 	if [ $? -ne 0 ] ; then
 		show "Loading PCMCIA modules"
-		/sbin/modprobe pcmcia_core $CORE_OPTS
 		/sbin/modprobe $PCIC $PCIC_OPTS
 		/sbin/modprobe ds
 		deltext
