@@ -1,4 +1,4 @@
-%define	_rel	5
+%define	_rel	6
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
@@ -14,6 +14,7 @@ Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6
 Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
+Patch3:		%{name}-PRISM2.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
@@ -69,6 +70,7 @@ Silver oraz Gold).
 tar xzvf %{SOURCE4}
 %patch2 -p1
 %endif
+%patch3 -p1
 
 %build
 ./Configure \
