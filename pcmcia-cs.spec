@@ -114,7 +114,7 @@ chkconfig --add pcmcia
 /etc/pcmcia/serial
 /etc/pcmcia/shared
 
-/etc/rc.d/init.d/pcmcia
+%attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config %attr(644,root,root) /etc/sysconfig/pcmcia
 
 %config %attr(644,root,root) /etc/pcmcia/cdrom.opts
