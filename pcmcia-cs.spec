@@ -35,7 +35,6 @@ Patch5:		%{name}-orinoco.patch
 Patch6:		%{name}-major.patch
 Patch7:		%{name}-smp-up.patch
 Patch8:		%{name}-no-lib-detect.patch
-Patch9:		%{name}-modular-config.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{?with_x:BuildRequires:	gtk+2-devel}
 %{?with_xforms:BuildRequires:	xforms-devel}
@@ -237,7 +236,6 @@ tar xzvf %{SOURCE4}
 %patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
 
 %build
 CONFIGOPTS="--noprompt --trust --cardbus --current --pnp --apm --srctree --force"
