@@ -38,7 +38,7 @@ cleanup()
 case "$1" in
     start)
 	show "Loading PCMCIA modules"
-	SC=/var/state/pcmcia/scheme
+	SC=/var/lib/pcmcia/scheme
 	if [ -L $SC -o ! -O $SC ] ; then rm -f $SC ; fi
 	if [ ! -f $SC ] ; then umask 022 ; touch $SC ; fi
 	if [ "$SCHEME" ] ; then umask 022 ; echo $SCHEME > $SC ; fi
@@ -67,8 +67,8 @@ case "$1" in
 	else
 	    msg_starting cardmgr
 	    busy
-	    if [ -r /var/state/pcmcia/stab ] ; then
-		cat /var/state/pcmcia/stab | cleanup
+	    if [ -r /var/lib/pcmcia/stab ] ; then
+		cat /var/lib/pcmcia/stab | cleanup
 	    fi
 	    /sbin/cardmgr $CARDMGR_OPTS
 	    deltext
