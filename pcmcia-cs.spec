@@ -161,17 +161,17 @@ fi
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
-%config %verify(not size mtime md5) /etc/sysconfig/pcmcia
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
+%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
 %ifarch %{ix86}
-%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
+%config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wavelan2*
 %endif
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
