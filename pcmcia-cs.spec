@@ -1,6 +1,7 @@
 #
 # Conditional build:
 # _without_dist_kernel	- without kernel from distribution
+# _without_x		- without XFree and gtk+
 #
 # TODO: UP/SMP for kernel-pcmcia-wavelan2?
 %define	_rel	1
@@ -31,8 +32,8 @@ URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
 BuildRequires:	%{kgcc_package}
-BuildRequires:	XFree86-devel
-BuildRequires:	gtk+-devel
+%{!?_without_x:BuildRequires:	XFree86-devel}
+%{!?_without_x:BuildRequires:	gtk+-devel}
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -221,10 +222,12 @@ fi
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
+%if %{!?_without_x:1}0
 %files X11
 %defattr(644,root,root,755)
 %{_bindir}/gpccard
 %{_bindir}/xcardinfo
+%endif
 
 %ifarch %{ix86}
 %files -n kernel-pcmcia-wavelan2
