@@ -178,10 +178,10 @@ if [ "$1" = "0" ]; then
 fi
 
 %post   -n kernel-pcmcia-wavelan2
-/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
+/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
 
 %postun -n kernel-pcmcia-wavelan2
-/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
+/sbin/depmod -a %{!?_without_dist_kernel:-F /boot/System.map-%{_kernel_ver} }%{_kernel_ver}
 
 %files
 %defattr(644,root,root,755)
