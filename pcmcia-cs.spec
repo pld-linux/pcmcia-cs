@@ -1,12 +1,12 @@
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
-Version:	3.1.27
+Version:	3.1.28
 Release:	1
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
-Group(pl):	Aplikacje/System
 Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
 Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
@@ -21,7 +21,6 @@ Obsoletes:	pcmcia-cs-cardinfo
 BuildRequires:	glibc-static
 BuildRequires:	uClibc-BOOT
 %endif
-
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
@@ -41,17 +40,18 @@ narzêdziowych. Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie
 kart PCMCIA, dodaj±c i usuwaj±c odpowiednie drivery (modu³y kernela),
 tak i¿ karty mog± byæ wk³adane i wyjmowane w dowolnym momencie. Modu³y
 kernela obs³uguj±ce sloty kart i same karty zawarte s± w innych
-pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart. Je¶li
-posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA, ten
-pakiet bêdzie Ci niezbêdny.
+pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart.
+Je¶li posiadasz laptopa albo te¿ Twój system wykorzystuje karty
+PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 
-%if %{?BOOT:1}%{!?BOOT:0}
 %package BOOT
 Summary:	%{name} for bootdisk
 Group:		Applications/System
-%description BOOT
-%endif
+Group(de):	Applikationen/System
+Group(pl):	Aplikacje/System
 
+%description BOOT
+%{name} for bootdisk.
 
 %prep
 %setup -q
@@ -80,25 +80,25 @@ Group:		Applications/System
 cat <<EOF >cardmgr/io.c
 inline void 
 outb (unsigned char value, unsigned short int port) { 
-  asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port)); 
+	asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port)); 
 }
 inline void 
 outw (unsigned short int value, unsigned short int port) {
-  asm volatile ("outw %w0,%w1": :"a" (value), "Nd" (port));
+	asm volatile ("outw %w0,%w1": :"a" (value), "Nd" (port));
 }
 
 inline unsigned char 
 inb (unsigned short int port) {
-  unsigned char _v;
-  asm volatile ("inb %w1,%0":"=a" (_v):"Nd" (port));
-  return _v;
+	unsigned char _v;
+	asm volatile ("inb %w1,%0":"=a" (_v):"Nd" (port));
+	return _v;
 }
 
 inline unsigned short int 
 inw (unsigned short int port) {
-  unsigned short _v;
-  asm volatile ("inw %w1,%0":"=a" (_v):"Nd" (port));
-  return _v;
+	unsigned short _v;
+	asm volatile ("inw %w1,%0":"=a" (_v):"Nd" (port));
+	return _v;
 }
 EOF
 
@@ -146,14 +146,14 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 rm -rf $RPM_BUILD_ROOT
 
 %if %{?BOOT:1}%{!?BOOT:0}
-install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin
-for i in *-BOOT; do 
-  install -s $i $RPM_BUILD_ROOT/usr/lib/bootdisk/sbin/`basename $i -BOOT`
+install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin
+for i in *-BOOT; do
+	install $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
 done
 
-install -d $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia
-cp -a etc/* $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia
-install %{SOURCE1} $RPM_BUILD_ROOT/usr/lib/bootdisk/etc/pcmcia/network
+install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia
+cp -a etc/* $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia
+install %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia/network
 %endif
 
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
@@ -225,10 +225,9 @@ fi
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
-
 %if %{?BOOT:1}%{!?BOOT:0}
 %files BOOT
 %defattr(644,root,root,755)
-%attr(755,root,root) /usr/lib/bootdisk/sbin/*
-/usr/lib/bootdisk/%{_sysconfdir}/pcmcia
+%attr(755,root,root) %{_libdir}/bootdisk/sbin/*
+%{_libdir}/bootdisk/%{_sysconfdir}/pcmcia
 %endif
