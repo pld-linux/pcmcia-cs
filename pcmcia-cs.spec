@@ -17,6 +17,11 @@ Prereq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
+%if %{?BOOT:1}%{!?BOOT:0}
+BuildRequires:	glibc-static
+BuildRequires:	uClibc-BOOT
+%endif
+
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
