@@ -1,16 +1,16 @@
-Summary:	PCMCIA card services.
-Summary(pl):	Obs³uga kart PCMCIA.
+Summary:	PCMCIA card services
+Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
-Version:	3.1.15
+Version:	3.1.16
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 License:	MPL (Mozilla Public License)
-URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 Source0:	ftp://sourceforge.org/pcmcia/%{name}-%{version}.tar.gz
 Source1:	pcmcia-cs-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
+URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 BuildRequires:	xforms-static
 BuildRequires:	xforms-devel
@@ -98,9 +98,19 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 chkconfig --add pcmcia
+if [ -f /var/lock/subsys/pcmcia ]; then
+	/rc.d/init.d/pcmcia restart 2> /dev/null
+else
+	echo "Run \"/rc.d/init.d/pcmcia start\" to start pcmcia cardbus daemon."
+fi
 
 %postun
-[ "$1" = 0 ] && chkconfig --del pcmcia
+if [ "$1" = "0" ]; then
+	if [ -f /var/state/run/pcmcia ]; then
+		/rc.d/init.d/pcmcia stop 2> /dev/null
+	fi
+	/sbin/chkconfig --del pcmcia
+fi
 
 %files
 %defattr(644,root,root,755)
