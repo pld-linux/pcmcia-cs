@@ -107,7 +107,7 @@ Group:		X11/Applications
 %description X11
 X11 Monitor for PCMCIA.
 
-%description X11
+%description X11 -l pl
 Monitorowanie PCMCIA pod X Window.
 
 %prep
