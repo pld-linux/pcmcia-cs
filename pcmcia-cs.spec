@@ -13,6 +13,7 @@ Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
+Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
 Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
@@ -87,6 +88,7 @@ Silver oraz Gold).
 %patch1 -p1
 %ifarch %{ix86}
 tar xzvf %{SOURCE4}
+tar xzvf %{SOURCE5}
 %patch2 -p1
 %endif
 %patch3 -p1
