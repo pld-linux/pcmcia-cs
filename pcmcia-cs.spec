@@ -114,6 +114,7 @@ Monitorowanie PCMCIA pod X Window.
 %patch7 -p1
 
 %build
+chmod -R u+rwX .
 cat <<EOF > config.mk
 LINUX=/usr
 PREFIX=%{_prefix}
