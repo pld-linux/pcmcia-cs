@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.30
-Release:	3
+Release:	4
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
@@ -81,7 +81,7 @@ install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
 install %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
 install %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 
-gzip -9nf SUPPORTED.CARDS CHANGES COPYING README LICENSE \
+gzip -9nf SUPPORTED.CARDS CHANGES COPYING README{,-2.4} LICENSE \
 	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 
 %clean
@@ -105,8 +105,8 @@ fi
 
 %files
 %defattr(644,root,root,755)
-%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz README.gz LICENSE.gz
-%doc doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
+%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz README.gz README-2.4.gz
+%doc LICENSE.gz doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
