@@ -1,7 +1,7 @@
 Summary: 	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
-Version:	3.1.0
+Version:	3.1.13
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzie/System
@@ -16,8 +16,7 @@ BuildRoot:	/tmp/%{name}-%{version}-root
 Source0: 	ftp://csb.stanford.edu/pub/pcmcia/pcmcia-cs-%{version}.tar.gz
 Source1: 	pcmcia-cs-network.script
 Source2: 	pcmcia.sysconfig
-Patch0:		pcmcia-nokernelmod.patch
-Patch1:		pcmcia-chkconfig-pld.patch
+Source3:	pcmcia.init
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your PLD-Linux 
@@ -48,8 +47,6 @@ bêdzie Ci niezbêdny.
 %prep
 
 %setup -q
-%patch0 -p0 
-%patch1 -p0
 
 %build
 LDFLAGS="-s"; export LDFLAGS
@@ -72,6 +69,9 @@ mkdir -p $RPM_BUILD_ROOT/etc/rc.d/init.d
 mv $RPM_BUILD_ROOT/etc/rc.d/rc.pcmcia $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
 mkdir -p $RPM_BUILD_ROOT/etc/sysconfig
 cp -f %{SOURCE2} $RPM_BUILD_ROOT/etc/sysconfig/pcmcia
+
+install -m754 %{SOURCE3} $RPM_BUILD_ROOT/etc/rc.d/init.d/pcmcia
+install -d $RPM_BUILD_ROOT/var/state/pcmcia
 
 gzip -9nr $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*}
 gzip -9nr ${RPM_BUILD_DIR}/%{name}-%{version}/{SUPPORTED.CARDS,\
@@ -96,14 +96,14 @@ chkconfig --add pcmcia
 %doc %attr(644,root,root) doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
 /sbin/*
 /usr/X11R6/bin/cardinfo
-%attr(644,root,root) /usr/share/pnp.ids
+#%attr(644,root,root) /usr/share/pnp.ids
 
 %attr(644,root,root) %{_mandir}/man4/*
 %attr(644,root,root) %{_mandir}/man5/*
 %attr(644,root,root) %{_mandir}/man8/*
 %attr(644,root,root) /usr/X11R6/man/man*/*
 
-/etc/pcmcia/cdrom
+#/etc/pcmcia/cdrom
 /etc/pcmcia/config
 /etc/pcmcia/ftl
 /etc/pcmcia/ide
@@ -117,7 +117,7 @@ chkconfig --add pcmcia
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config %attr(644,root,root) /etc/sysconfig/pcmcia
 
-%config %attr(644,root,root) /etc/pcmcia/cdrom.opts
+#%config %attr(644,root,root) /etc/pcmcia/cdrom.opts
 %config %attr(644,root,root) /etc/pcmcia/config.opts
 %config %attr(644,root,root) /etc/pcmcia/ftl.opts
 %config %attr(644,root,root) /etc/pcmcia/ide.opts
@@ -127,3 +127,4 @@ chkconfig --add pcmcia
 %config %attr(644,root,root) /etc/pcmcia/serial.opts
 
 %attr(644,root,root) /etc/pcmcia/cis/*
+%dir /var/state/pcmcia
