@@ -1,12 +1,12 @@
 Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
-Version:	3.1.16
+Version:	3.1.19
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 License:	MPL (Mozilla Public License)
-Source0:	ftp://sourceforge.org/pcmcia/%{name}-%{version}.tar.gz
+Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	pcmcia-cs-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
