@@ -10,6 +10,7 @@ Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Patch0:		%{name}-manfid_0175.patch
+Patch1:		%{name}-LDFLAGS.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 BuildRequires:	modutils
@@ -43,10 +44,10 @@ PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 %prep
 %setup -q
 #%patch0 -p1
+%patch1 -p1
 
 %build
 
-LDFLAGS="%{rpmldflags}"; export LDFLAGS
 ./Configure \
 	--noprompt \
 	--trust \
@@ -60,6 +61,7 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
+	LDFLAGS="%{rpmldflags}" \
 	CC="%{__cc}" \
 	CONFIG_PCMCIA=1
 
