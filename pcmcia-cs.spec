@@ -39,7 +39,7 @@ PCMCIA cards this package is a must.
 
 %description -l pl
 Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w
-Twoim PLD-Linuxie. Sk³ada siê on z demona oraz kilku programów
+Twoim PLD-Linuksie. Sk³ada siê on z demona oraz kilku programów
 narzêdziowych. Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie
 kart PCMCIA, dodaj±c i usuwaj±c odpowiednie drivery (modu³y kernela),
 tak i¿ karty mog± byæ wk³adane i wyjmowane w dowolnym momencie. Modu³y
