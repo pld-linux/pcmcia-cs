@@ -9,7 +9,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.2.8
-Release:	3.1
+Release:	3.2
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
@@ -26,7 +26,8 @@ Patch5:		%{name}-major.patch
 Patch6:		%{name}-original-config.patch
 Patch7:		%{name}-build.patch
 URL:		http://pcmcia-cs.sourceforge.net/
-%{?with_x11:BuildRequires:	XFree86-devel}
+%{?with_x11:BuildRequires:	gtk+2-devel}
+%{?with_x11:BuildRequires:      xforms-devel}
 BuildRequires:	rpmbuild(macros) >= 1.118
 Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
@@ -122,13 +123,16 @@ UCC=%{__cc}
 LD=ld
 UFLAGS=
 CPPFLAGS=-I/usr/include -I../include
+GTK_CFLAGS=-I/usr/include/gtk-2.0 -I/usr/include/glib-2.0 -I/usr/lib/glib-2.0/include -I/usr/include/pango-1.0 -I/usr/lib/gtk-2.0/include -I/usr/include/atk-1.0
+GTK_LIBS=-lgtk-x11-2.0
+FLIBS=-L/usr/X11R6/lib -lforms -lstdc++
 SYSV_INIT=y
 RC_DIR=%{_sysconfdir}/rc.d
 MANDIR=%{_mandir}
 %if %{with x11}
 HAS_XAW=y
-#HAS_GTK=y
-#HAS_FORMS=y
+HAS_GTK=y
+HAS_FORMS=y
 %endif
 CONFIG_INET=y
 CONFIG_SCSI=y
@@ -167,7 +171,8 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia,%{_bi
 	PREFIX=$RPM_BUILD_ROOT%{_prefix} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir}
 
-mv -f $RPM_BUILD_ROOT/usr/X11R6/bin/xcardinfo $RPM_BUILD_ROOT/usr/bin
+mv -f $RPM_BUILD_ROOT/usr/X11R6/bin/{,x}cardinfo $RPM_BUILD_ROOT/usr/bin
+
 
 # The files that we don't want installed
 rm -f $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia
