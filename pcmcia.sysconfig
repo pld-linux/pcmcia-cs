@@ -1,6 +1,6 @@
 PCMCIA=yes
-PCIC=i82365
-# for 2.4 kernels
-# PCIC=yenta_socket
+PCIC=yenta_socket
+# for kernel before 2.4 try :
+# PCIC=i82365
 PCIC_OPTS=
 CORE_OPTS=
