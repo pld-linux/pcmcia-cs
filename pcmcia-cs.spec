@@ -15,6 +15,7 @@ Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
 Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
+# Source0-md5:	44dbc0a8978fe618eee242b0bd25392c
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
