@@ -125,7 +125,9 @@ fi
 %{_sysconfdir}/pcmcia/config
 %{_sysconfdir}/pcmcia/network.orig
 %{_sysconfdir}/pcmcia/shared
+%ifnarch alpha
 %{_datadir}/pnp.ids
+%endif
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
