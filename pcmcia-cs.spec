@@ -31,7 +31,6 @@ Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
 Patch5:		%{name}-orinoco.patch
-Patch6:		%{name}-forcebuild.patch
 Patch7:		%{name}-major.patch
 URL:		http://pcmcia-cs.sourceforge.net/
 %{!?_without_x:BuildRequires:	XFree86-devel}
@@ -125,7 +124,6 @@ tar xzvf %{SOURCE4}
 %patch3 -p1
 %patch4 -p1
 #%patch5	-p1
-%patch6 -p1
 %patch7 -p1
 
 %build
@@ -138,7 +136,8 @@ tar xzvf %{SOURCE4}
 	--apm \
 	--srctree \
 	--kernel=%{_kernelsrcdir} \
-	--target=$RPM_BUILD_ROOT
+	--target=$RPM_BUILD_ROOT \
+	--force
 
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
@@ -153,6 +152,13 @@ install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 %{__make} install \
 	MODDIR=/lib/modules/%{_kernel_ver} \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} 
+
+# The files that we don't want installed
+rm -f $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia
+rm -f $RPM_BUILD_ROOT/lib/modules/*/net/8390.o*  # it's in the kernel anyway
+%ifarch %{ix86}
+rm -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/config.orig
+%endif
 
 # Install our own network up/down script
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
@@ -212,6 +218,7 @@ fi
 %config(noreplace) %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
 %attr(754,root,root) %{_sysconfdir}/pcmcia/ide
+%attr(754,root,root) %{_sysconfdir}/pcmcia/ieee1394
 %attr(754,root,root) %{_sysconfdir}/pcmcia/memory
 %attr(754,root,root) %{_sysconfdir}/pcmcia/network
 %attr(754,root,root) %{_sysconfdir}/pcmcia/parport
