@@ -1,0 +1,12 @@
+diff -urN pcmcia-cs-3.1.30.orig/etc/config pcmcia-cs-3.1.30/etc/config
+--- pcmcia-cs-3.1.30.orig/etc/config	Wed Nov 21 03:03:56 2001
++++ pcmcia-cs-3.1.30/etc/config	Fri May 24 21:20:21 2002
+@@ -1011,7 +1011,7 @@
+ 
+ card "Intersil PRISM2 11 Mbps Wireless Adapter"
+   manfid 0x0156, 0x0002
+-  bind "wvlan_cs"
++  bind "orinoco_cs"
+ 
+ card "Lucent Technologies WaveLAN/IEEE Adapter"
+   version "Lucent Technologies", "WaveLAN/IEEE"
