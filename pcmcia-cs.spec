@@ -12,14 +12,11 @@ Source3:	pcmcia.init
 Patch0:		%{name}-manfid_0175.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
+BuildRequires:	modutils
 PreReq:		chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
-%if %{?BOOT:1}%{!?BOOT:0}
-BuildRequires:	glibc-static
-BuildRequires:	uClibc-BOOT
-%endif
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your
@@ -43,89 +40,11 @@ pakietach, które musz± byæ zainstalowane aby móc korzystaæ z kart.
 Je¶li posiadasz laptopa albo te¿ Twój system wykorzystuje karty
 PCMCIA, ten pakiet bêdzie Ci niezbêdny.
 
-%package BOOT
-Summary:	%{name} for bootdisk
-Group:		Applications/System
-
-%description BOOT
-%{name} for bootdisk.
-
-%description BOOT -l pl
-%{name} dla bootkietki.
-
 %prep
 %setup -q
 #%patch0 -p1
 
 %build
-
-%if %{?BOOT:1}%{!?BOOT:0}
-./Configure \
-	--noprompt \
-	--trust \
-	--cardbus \
-	--current \
-	--pnp \
-	--apm \
-	--srctree \
-	--kernel=%{_kernelsrcdir} \
-	--target=$RPM_BUILD_ROOT
-
-%{__make} -C cardmgr cardmgr CONFIG_PCMCIA=1 \
-	CPPFLAGS="-Os -I../include -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
-	LDFLAGS="-nostdlib -static -s" \
-	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
-
-## uClibc lacks outb and family required by probe
-## TODO: support for other arch than intel
-cat <<EOF >cardmgr/io.c
-inline void
-outb (unsigned char value, unsigned short int port) {
-	asm volatile ("outb %b0,%w1": :"a" (value), "Nd" (port));
-}
-inline void
-outw (unsigned short int value, unsigned short int port) {
-	asm volatile ("outw %w0,%w1": :"a" (value), "Nd" (port));
-}
-
-inline unsigned char
-inb (unsigned short int port) {
-	unsigned char _v;
-	asm volatile ("inb %w1,%0":"=a" (_v):"Nd" (port));
-	return _v;
-}
-
-inline unsigned short int
-inw (unsigned short int port) {
-	unsigned short _v;
-	asm volatile ("inw %w1,%0":"=a" (_v):"Nd" (port));
-	return _v;
-}
-EOF
-
-( cd cardmgr; gcc -c io.c )
-
-%{__make} -C cardmgr probe CONFIG_PCMCIA=1 \
-	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
-	LDFLAGS="-nostdlib -static -s" \
-	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc io.o"
-
-%{__make} -C cardmgr cardctl ide_info scsi_info pcinitrd ifport ifuser CONFIG_PCMCIA=1 \
-	CFLAGS="-Os -I%{_kernelsrcdir}/include -I%{_libdir}/bootdisk%{_includedir}" \
-	LDFLAGS="-nostdlib -static -s" \
-	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
-
-mv -f cardmgr/cardmgr cardmgr-BOOT
-mv -f cardmgr/probe probe-BOOT
-mv -f cardmgr/ifuser ifuser-BOOT
-mv -f cardmgr/ifport ifport-BOOT
-mv -f cardmgr/ide_info ide_info-BOOT
-mv -f cardmgr/scsi_info scsi_info-BOOT
-mv -f cardmgr/cardctl cardctl-BOOT
-#mv -f cardmgr/pcinitrd pcinitrd-BOOT
-%{__make} clean
-%endif
-
 
 LDFLAGS="%{rpmldflags}"; export LDFLAGS
 ./Configure \
@@ -141,21 +60,11 @@ LDFLAGS="%{rpmldflags}"; export LDFLAGS
 
 %{__make} all \
 	CFLAGS="%{rpmcflags} -Wall -Wstrict-prototypes -pipe" \
+	CC="%{__cc}" \
 	CONFIG_PCMCIA=1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
-%if %{?BOOT:1}%{!?BOOT:0}
-install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin
-for i in *-BOOT; do
-	install $i $RPM_BUILD_ROOT%{_libdir}/bootdisk/sbin/`basename $i -BOOT`
-done
-
-install -d $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia
-cp -a etc/* $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia
-install %{SOURCE1} $RPM_BUILD_ROOT%{_libdir}/bootdisk%{_sysconfdir}/pcmcia/network
-%endif
 
 install -d $RPM_BUILD_ROOT{/etc/rc.d/init.d,/etc/sysconfig,/var/lib/pcmcia}
 
@@ -225,10 +134,3 @@ fi
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
-
-%if %{?BOOT:1}%{!?BOOT:0}
-%files BOOT
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/bootdisk/sbin/*
-%{_libdir}/bootdisk/%{_sysconfdir}/pcmcia
-%endif
