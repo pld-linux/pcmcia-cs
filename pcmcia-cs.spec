@@ -102,7 +102,7 @@ EOF
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc io.o"
 
-%{__make} -C cardmgr ide_info scsi_info pcinitrd ifport ifuser  CONFIG_PCMCIA=1 \
+%{__make} -C cardmgr cardctl ide_info scsi_info pcinitrd ifport ifuser  CONFIG_PCMCIA=1 \
 	CFLAGS="-Os -I/usr/src/linux/include -I%{_libdir}/bootdisk%{_includedir}" \
 	LDFLAGS="-nostdlib -static -s" \
 	LDLIBS="%{_libdir}/bootdisk%{_libdir}/crt0.o %{_libdir}/bootdisk%{_libdir}/libc.a -lgcc"
@@ -113,6 +113,7 @@ mv -f cardmgr/ifuser ifuser-BOOT
 mv -f cardmgr/ifport ifport-BOOT
 mv -f cardmgr/ide_info ide_info-BOOT
 mv -f cardmgr/scsi_info scsi_info-BOOT
+mv -f cardmgr/cardctl cardctl-BOOT
 #mv -f cardmgr/pcinitrd pcinitrd-BOOT
 %{__make} clean
 %endif
