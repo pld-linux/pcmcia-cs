@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.21
-Release:	1
+Release:	2
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(pl):	Aplikacje/System
@@ -11,6 +11,7 @@ Source0:	ftp://projects.sourceforge.net/pub/pcmcia-cs/%{name}-%{version}.tar.gz
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
+Patch0:		%{name}-no_xforms.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 Prereq:		chkconfig
@@ -41,10 +42,10 @@ pakiet bêdzie Ci niezbêdny.
 
 %prep
 %setup -q
+%patch -p1
 
 %build
-LDFLAGS="-s"; export LDFLAGS
-
+%{!?debug:LDFLAGS="-s"; export LDFLAGS}
 ./Configure \
 	--noprompt \
 	--trust \
@@ -57,9 +58,8 @@ LDFLAGS="-s"; export LDFLAGS
 	--target=$RPM_BUILD_ROOT
 
 %{__make} all \
-	CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe" \
-	CONFIG_PCMCIA=1 \
-	HAS_FORMS=n
+	CFLAGS="%{!?debug:$RPM_OPT_FLAGS}%{?debug:-O -g} -Wall -Wstrict-prototypes -pipe" \
+	CONFIG_PCMCIA=1
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -68,7 +68,6 @@ install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmci
 %{__make} install \
 	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
 	CONFIG_PCMCIA=1 \
-	HAS_FORMS=n
 
 # Install our own network up/down script
 mv -f $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
