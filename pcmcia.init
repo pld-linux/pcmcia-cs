@@ -66,13 +66,10 @@ case "$1" in
 		msg_Already_Running cardmgr
 	else
 		msg_starting cardmgr
-		busy
 		if [ -r /var/lib/pcmcia/stab ] ; then
 			cat /var/lib/pcmcia/stab | cleanup
 		fi
-		/sbin/cardmgr $CARDMGR_OPTS
-		deltext
-		ok
+		daemon /sbin/cardmgr $CARDMGR_OPTS
 	fi
 	touch /var/lock/subsys/pcmcia
 	;;
