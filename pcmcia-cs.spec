@@ -4,16 +4,19 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
-%define	_rel	19
+%define	_rel	20
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
-Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.tar.gz
+Source0:	http://dl.sourceforge.net/pcmcia-cs/%{name}-%{version}.tar.gz
+# Source0-md5:	bff640e1b9177e86e02783fba9bd68df
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
 Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6.16Avaya.tar.gz
+# Source4-md5:	8b1829e3554ba15d400ab367e6851437
 Source5:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
+# Source5-md5:	7ef76ff6b798e426f62efac7f4abf636
 Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
