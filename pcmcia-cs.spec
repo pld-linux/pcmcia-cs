@@ -4,7 +4,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
-%define	_rel	14
+%define	_rel	15
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
@@ -18,6 +18,7 @@ Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
 Patch3:		%{name}-PRISM2.patch
+Patch4:		%{name}-realtek_cb-support.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 %{!?_without_dist_kernel:Requires:	kernel-pcmcia-cs}
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
@@ -93,6 +94,7 @@ tar xzvf %{SOURCE5}
 %patch2 -p1
 %endif
 %patch3 -p1
+%patch4 -p1
 
 %build
 ./Configure \
