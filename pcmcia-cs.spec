@@ -15,6 +15,7 @@ Patch0:		%{name}-no_xforms.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 Prereq:		chkconfig
+ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
 
