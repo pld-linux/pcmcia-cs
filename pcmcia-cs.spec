@@ -2,20 +2,20 @@ Summary:	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
 Version:	3.1.14
-Release:	2
+Release:	3
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
-Copyright:	MPL (Mozilla Public License)
+License:	MPL (Mozilla Public License)
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
+Source0:	ftp://sourceforge.org/pcmcia/%{name}-%{version}.tar.gz
+Source1:	pcmcia-cs-network.script
+Source2:	pcmcia.sysconfig
+Source3:	pcmcia.init
 BuildRequires:	kernel-source
 BuildRequires:	xforms-static
 BuildRequires:	xforms-devel
 Prereq:		chkconfig
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-Source0:	ftp://sourceforge.org/pcmcia/%{name}-%{version}.tar.gz
-Source1:	pcmcia-cs-network.script
-Source2:	pcmcia.sysconfig
-Source3:	pcmcia.init
 
 %description
 The pcmcia-cs package adds PCMCIA cards handling support for your PLD-Linux
@@ -56,31 +56,38 @@ Monitor i narzêdzie kontroluj±ce kart PCMCIA dla Xów.
 %build
 LDFLAGS="-s"; export LDFLAGS
 
-./Configure -n --trust --cardbus --current --target=$RPM_BUILD_ROOT \
-    --pnp --srctree --kernel=%{_prefix}/src/linux
-make CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe " \
-    XFLAGS="$RPM_OPT_FLAGS -O -pipe " \
-    all
+./Configure \
+	--noprompt \
+	--trust \
+	--cardbus \
+	--current \
+	--pnp \
+	--apm \
+	--srctree \
+	--kernel=%{_prefix}/src/linux \
+	--target=$RPM_BUILD_ROOT
+
+make all \
+	CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe" \
+	CONFIG_PCMCIA=1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-DESTDIR=$RPM_BUILD_ROOT; export DESTDIR
-make MANDIR=${RPM_BUILD_ROOT}%{_mandir} install
+install -d $RPM_BUILD_ROOT{%{_sysconfdir}/{rc.d/init.d,sysconfig},/var/lib/pcmcia}
+
+make install \
+	MANDIR=$RPM_BUILD_ROOT%{_mandir} \
+	CONFIG_PCMCIA=1
 
 # Install our own network up/down script
 mv $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network.orig
-install -m755 %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d
-mv $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/rc.pcmcia $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
-cp -f %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
+install %{SOURCE1} $RPM_BUILD_ROOT%{_sysconfdir}/pcmcia/network
+install %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
+install %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
 
-install -m754 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
-install -d $RPM_BUILD_ROOT/var/lib/pcmcia
-
-gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*}
-gzip -9nf ${RPM_BUILD_DIR}/%{name}-%{version}/{SUPPORTED.CARDS,\
-CHANGES,COPYING,README,LICENSE,doc/PCMCIA-HOWTO,doc/PCMCIA-PROG}
+gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*} \
+	SUPPORTED.CARDS CHANGES COPYING README LICENSE \
+	doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 
 mv $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1.gz \
   $RPM_BUILD_ROOT%{_prefix}/X11R6/man/man1/cardinfo.1x.gz
@@ -96,36 +103,39 @@ chkconfig --add pcmcia
 
 %files
 %defattr(644,root,root,755)
-%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz
-%doc README.gz LICENSE.gz
+%doc SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz README.gz LICENSE.gz
 %doc doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
-/sbin/*
-#%{_datadir}/pnp.ids
+%dir /var/lib/pcmcia
+%attr(755,root,root) /sbin/*
 
+%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/pcmcia
+%config %verify(not size mtime md5) %{_sysconfdir}/sysconfig/pcmcia
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/memory.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/parport.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/scsi.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/serial.opts
+%config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/wireless.opts
+%attr(754,root,root) %{_sysconfdir}/pcmcia/ftl
+%attr(754,root,root) %{_sysconfdir}/pcmcia/ide
+%attr(754,root,root) %{_sysconfdir}/pcmcia/memory
+%attr(754,root,root) %{_sysconfdir}/pcmcia/network
+%attr(754,root,root) %{_sysconfdir}/pcmcia/parport
+%attr(754,root,root) %{_sysconfdir}/pcmcia/scsi
+%attr(754,root,root) %{_sysconfdir}/pcmcia/serial
+%attr(754,root,root) %{_sysconfdir}/pcmcia/wireless
+%{_sysconfdir}/pcmcia/cis
+%{_sysconfdir}/pcmcia/config
+%{_sysconfdir}/pcmcia/network.orig
+%{_sysconfdir}/pcmcia/shared
+%{_datadir}/pnp.ids
 %{_mandir}/man4/*
 %{_mandir}/man5/*
 %{_mandir}/man8/*
 
-#%{_sysconfdir}/pcmcia/cdrom
-%{_sysconfdir}/pcmcia/config
-%{_sysconfdir}/pcmcia/ftl
-%{_sysconfdir}/pcmcia/ide
-%{_sysconfdir}/pcmcia/memory
-%{_sysconfdir}/pcmcia/network
-%{_sysconfdir}/pcmcia/network.orig
-%{_sysconfdir}/pcmcia/scsi
-%{_sysconfdir}/pcmcia/serial
-%{_sysconfdir}/pcmcia/shared
-
-%attr(754,root,root) %{_sysconfdir}/rc.d/init.d/pcmcia
-%config %{_sysconfdir}/sysconfig/pcmcia
-
-#%config %attr(644,root,root) %{_sysconfdir}/pcmcia/cdrom.opts
-%config %{_sysconfdir}/pcmcia/config.opts
-%config %{_sysconfdir}/pcmcia/ftl.opts
-%config %{_sysconfdir}/pcmcia/ide.opts
-
 %files cardinfo
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_prefix}/X11R6/bin/cardinfo
-%{_prefix}/X11R6/man/man*/*
+%{_prefix}/X11R6/man/man1/*
