@@ -1,0 +1,26 @@
+--- pcmcia-cs-3.1.30/man/Makefile.orig	Sun Mar 30 18:53:22 2003
++++ pcmcia-cs-3.1.30/man/Makefile	Sun Mar 30 18:53:52 2003
+@@ -28,19 +28,19 @@
+ 
+ install-man1-x11: $(MAN1_X11)
+ 	@mkdir -p $(XMANDIR)/man1
+-	cp $(MAN1_X11) $(XMANDIR)/man1
++	cp -f $(MAN1_X11) $(XMANDIR)/man1
+ 
+ install-man4: $(MAN4)
+ 	@mkdir -p $(MANDIR)/man4
+-	cp *.4 $(MANDIR)/man4
++	cp -f *.4 $(MANDIR)/man4
+ 
+ install-man5: $(MAN5)
+ 	@mkdir -p $(MANDIR)/man5
+-	cp *.5 $(MANDIR)/man5
++	cp -f *.5 $(MANDIR)/man5
+ 
+ install-man8: $(MAN8)
+ 	@mkdir -p $(MANDIR)/man8
+-	cp *.8 $(MANDIR)/man8
++	cp -f *.8 $(MANDIR)/man8
+ 
+ install: install-man1-x11 install-man4 install-man5 install-man8
+ 
