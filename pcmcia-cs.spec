@@ -4,7 +4,7 @@ Summary(pl):	ObsЁuga kart PCMCIA
 Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
-Version:	3.1.30
+Version:	3.2.0
 Release:	%{_rel}
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
@@ -16,7 +16,7 @@ Source4:	ftp://ftp.avaya.com/incoming/Up1cku9/tsoweb/avayawireless/wavelan2_cs-6
 Patch0:		%{name}-manfid_0175.patch
 Patch1:		%{name}-LDFLAGS.patch
 Patch2:		%{name}-wavelan2.patch
-Patch3:		%{name}-PRISM2.patch
+Patch3:		%{name}-man.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 %{!?_without_dist_kernel:BuildRequires:	kernel-source}
 BuildRequires:	modutils
@@ -157,7 +157,7 @@ fi
 %files
 %defattr(644,root,root,755)
 %doc SUPPORTED.CARDS CHANGES COPYING README{,-2.4}
-%doc LICENSE doc/PCMCIA-HOWT doc/PCMCIA-PROG
+%doc LICENSE doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
