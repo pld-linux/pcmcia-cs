@@ -1,28 +1,30 @@
---- pcmcia-cs-3.2.5/Configure.orig	2003-08-13 08:26:23.000000000 +0200
-+++ pcmcia-cs-3.2.5/Configure	2003-10-18 17:35:19.000000000 +0200
-@@ -135,6 +135,8 @@
+diff -urN pcmcia-cs-3.2.6.org/Configure pcmcia-cs-3.2.6/Configure
+--- pcmcia-cs-3.2.6.org/Configure	2003-12-08 21:17:50.547362922 +0100
++++ pcmcia-cs-3.2.6/Configure	2003-12-08 21:28:24.728584419 +0100
+@@ -138,6 +138,8 @@
      --bsd)		SYSV_INIT=n		;;
      --rcdir=*)		arg RC_DIR "$1"		;;
      --extraver=*)	arg EXTRAVER "$1"	;;
-+    --smp)		CONFIG_SMP=y		;;
-+    --up)		CONFIG_SMP=n		;;
++    --smp)              CONFIG_SMP=y            ;;
++    --up)               CONFIG_SMP=n            ;;
      *)			usage			;;
      esac
      shift
-@@ -526,6 +528,7 @@
+@@ -529,6 +531,7 @@
      printflag "Symmetric multiprocessing support" CONFIG_SMP
      if [ "$CONFIG_SMP" = "y" ] ; then
  	echo "#define __SMP__ 1" >> $CONFIG_H
 +	echo "#define __KERNEL_SMP 1" >> $CONFIG_H
-     fi
-     printflag "Preemptive kernel support" CONFIG_PREEMPT
-     printflag "High memory support" CONFIG_HIGHMEM
-@@ -687,11 +690,6 @@
+ 	if [ -n "$CONFIG_NR_CPUS" ] ; then
+ 	    write_int CONFIG_NR_CPUS
+ 	fi
+@@ -713,12 +716,6 @@
  	echo "CKSUM=\"`cksum < $AUTOCONF`\"" >> $CONFIG
  	echo "#define CONFIG_MODULES 1" >> $CONFIG_H
  	configcheck PCMCIA
 -	if qgrep "^ *SMP *= *1" $LINUX/Makefile ; then
 -	    CONFIG_SMP=y
+-	    eval `grep "^CONFIG_NR_CPUS=" $AUTOCONF`
 -	else
 -	    configcheck SMP
 -	fi
