@@ -44,7 +44,7 @@ pakiet bêdzie Ci niezbêdny.
 %setup -q
 
 %build
-%{!?debug:LDFLAGS="-s"; export LDFLAGS}
+LDFLAGS="%{rpmldflags}"; export LDFLAGS
 ./Configure \
 	--noprompt \
 	--trust \
