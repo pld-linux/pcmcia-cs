@@ -26,7 +26,7 @@ if is_no "${PCMCIA}" ; then exit 0 ; fi
 cleanup()
 {
 while read SN CLASS MOD INST DEV EXTRA ; do
-	if [ "$SN" != "Socket" ] ; then
+	if [ "$SN" != "Socket" ]; then
 		/etc/pcmcia/$CLASS stop $DEV 2> /dev/null
 	fi
 done
@@ -48,7 +48,7 @@ case "$1" in
 		echo $SCHEME > $SC
 	fi
 	fgrep -q pcmcia /proc/devices
-	if [ $? -ne 0 ] ; then
+	if [ $? -ne 0 ]; then
 		_modprobe single $PCIC $PCIC_OPTS
 		_modprobe single ds
 		ok
@@ -66,7 +66,7 @@ case "$1" in
 	fi
 	;;
   stop)
-	if [ -s /var/run/cardmgr.pid ] ; then
+	if [ -s /var/run/cardmgr.pid ]; then
 		msg_stopping cardmgr
 		killproc cardmgr
 		rm -f /var/lock/subsys/pcmcia
