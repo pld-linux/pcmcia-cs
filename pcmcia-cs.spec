@@ -2,7 +2,7 @@ Summary:	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
 Version:	3.1.14
-Release:	1
+Release:	2
 Group:		Utilities/System
 Group(pl):	Narzêdzia/System
 Copyright:	MPL (Mozilla Public License)
@@ -76,7 +76,7 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig
 cp -f %{SOURCE2} $RPM_BUILD_ROOT%{_sysconfdir}/sysconfig/pcmcia
 
 install -m754 %{SOURCE3} $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/pcmcia
-install -d $RPM_BUILD_ROOT/var/state/pcmcia
+install -d $RPM_BUILD_ROOT/var/lib/pcmcia
 
 gzip -9nf $RPM_BUILD_ROOT/{%{_mandir}/man*/*,usr/X11R6/man/man1/*}
 gzip -9nf ${RPM_BUILD_DIR}/%{name}-%{version}/{SUPPORTED.CARDS,\
