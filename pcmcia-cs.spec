@@ -26,6 +26,7 @@ Source4:	http://pcmcia-cs.sourceforge.net/ftp/contrib/cs89x0_cs.tar.gz
 
 Patch0:		%{name}-path.patch
 Patch1:		%{name}-LDFLAGS.patch
+Patch2:		%{name}-llh.patch
 Patch3:		%{name}-man.patch
 Patch4:		%{name}-realtek_cb-support.patch
 # based on http://airsnort.shmoo.com/pcmcia-cs-3.2.1-orinoco-patch.diff
@@ -201,6 +202,7 @@ wersja znajduje siê w pakiecie %{name}-X11).
 %setup -q
 
 %patch1 -p1
+%patch2 -p1
 #tar xzvf %{SOURCE4}
 %patch3 -p1
 %patch4 -p1
