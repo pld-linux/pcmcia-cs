@@ -1,3 +1,8 @@
+#
+# Conditional build:
+# _without_dist_kernel	- without kernel from distribution
+#
+# TODO: UP/SMP for kernel-pcmcia-wavelan2?
 %define	_rel	1
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(pl):	Obs³uga kart PCMCIA
@@ -28,7 +33,7 @@ BuildRequires:	modutils
 BuildRequires:	%{kgcc_package}
 BuildRequires:	XFree86-devel
 BuildRequires:	gtk+-devel
-PreReq:		chkconfig
+Requires(post,preun):	/sbin/chkconfig
 ExcludeArch:	sparc sparc64
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Obsoletes:	pcmcia-cs-cardinfo
@@ -78,8 +83,8 @@ Summary:	Avaya Wireless PC Card - Drivers
 Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
-Prereq:		/sbin/depmod
 %{!?_without_dist_kernel:%requires_releq_kernel_up}
+Requires(post,postun):	/sbin/depmod
 
 %description -n kernel-pcmcia-wavelan2
 wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
@@ -173,10 +178,10 @@ if [ "$1" = "0" ]; then
 fi
 
 %post   -n kernel-pcmcia-wavelan2
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %postun -n kernel-pcmcia-wavelan2
-/sbin/depmod -a
+/sbin/depmod -a -F /boot/System.map-%{_kernel_ver} %{_kernel_ver}
 
 %files
 %defattr(644,root,root,755)
