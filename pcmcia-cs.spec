@@ -2,7 +2,7 @@ Summary:	PCMCIA card services
 Summary(pl):	Obs³uga kart PCMCIA
 Name:		pcmcia-cs
 Version:	3.1.29
-Release:	1
+Release:	2
 License:	MPL (Mozilla Public License)
 Group:		Applications/System
 Group(de):	Applikationen/System
@@ -11,6 +11,7 @@ Source0:	ftp://ftp.sourceforge.net/pub/sourceforge/pcmcia-cs/%{name}-%{version}.
 Source1:	%{name}-network.script
 Source2:	pcmcia.sysconfig
 Source3:	pcmcia.init
+Patch0:		%{name}-manfid_0175.patch
 URL:		http://hyper.stanford.edu/HyperNews/get/pcmcia/home.html
 BuildRequires:	kernel-source
 Prereq:		chkconfig
@@ -55,6 +56,7 @@ Group(pl):	Aplikacje/System
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 
