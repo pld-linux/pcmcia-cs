@@ -1,7 +1,7 @@
 Summary: 	PCMCIA card services.
 Summary(pl):	Obs³uga kart PCMCIA.
 Name:		pcmcia-cs
-Version:	3.0.14
+Version:	3.1.0
 Release:	1
 Group:		Utilities/System
 Group(pl):	Narzêdzie/System
@@ -33,17 +33,17 @@ support.
 If you own a laptop or your system uses PCMCIA cards this package is a must.
 
 %description -l pl
-Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w twoim
+Pakiet pcmcia-cs zawiera programy wspieraj±ce obs³ugê kart PCMCIA w Twoim
 PLD-Linuxie. Sk³ada siê on z demona oraz kilku programów narzêdziowych.
-Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie kart PCMCIA, ³aduj±c i
+Demon ten potrafi reagowaæ na wk³adanie i wyjmowanie kart PCMCIA, dodaj±c i
 usuwaj±c odpowiednie drivery (modu³y kernela), tak i¿ karty mog± byæ
 wk³adane i wyjmowane w dowolnym momencie.
 
-Modu³y kernela obs³uguj±ce sloty kart i same karty zawarte s± w innym
-pakiecie, który musi byæ zainstalowany aby móc korzystaæ z kart.
+Modu³y kernela obs³uguj±ce sloty kart i same karty zawarte s± w innych
+pakieyach, które musz± byæ zainstalowany aby móc korzystaæ kart.
 
-Je¶li posiadasz laptopa lub twój system wykorzystuje karty PCMCIA ten pakiet
-jest niezbêdny.
+Je¶li posiadasz laptopa albo te¿ Twój system wykorzystuje karty PCMCIA ten pakiet
+bêdzie Ci niezbêdny.
 
 %prep
 
@@ -55,7 +55,7 @@ jest niezbêdny.
 LDFLAGS="-s"; export LDFLAGS
 
 ./Configure -n --trust --cardbus --current --target=$RPM_BUILD_ROOT \
-    --srctree --kernel=/usr/src/linux
+    --pnp --srctree --kernel=/usr/src/linux
 make CFLAGS="$RPM_OPT_FLAGS -Wall -Wstrict-prototypes -pipe " \
     XFLAGS="$RPM_OPT_FLAGS -O -pipe " \
     all
@@ -80,16 +80,6 @@ CHANGES,COPYING,README,LICENSE,doc/PCMCIA-HOWTO,doc/PCMCIA-PROG}
 mv $RPM_BUILD_ROOT/usr/X11R6/man/man1/cardinfo.1.gz \
   $RPM_BUILD_ROOT/usr/X11R6/man/man1/cardinfo.1x.gz
 
-#MANPATHS=`find $DESTDIR -type d -name "man[1-9n]" -print`
-#if [ -n "$MANPATHS" ]; then
-#  chown -Rvc root.root $MANPATHS
-#  find $MANPATHS -type l -print |
-#    perl -lne '($f=readlink($_))&&unlink($_)&&symlink("$f.gz","$_.gz")||die;'
-#  find $MANPATHS -type f -print |
-#    xargs -r gzip -v9nf
-#fi
-
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -104,18 +94,9 @@ chkconfig --add pcmcia
 %doc %attr(644,root,root) SUPPORTED.CARDS.gz CHANGES.gz COPYING.gz
 %doc %attr(644,root,root) README.gz LICENSE.gz
 %doc %attr(644,root,root) doc/PCMCIA-HOWTO.gz doc/PCMCIA-PROG.gz
-/sbin/cardctl
-/sbin/cardmgr
-/sbin/ftl_check
-/sbin/ftl_format
-/sbin/ide_info
-/sbin/ifport
-/sbin/ifuser
-/sbin/pcinitrd
-/sbin/probe
-/sbin/dump_cis
-/sbin/pack_cis
+/sbin/*
 /usr/X11R6/bin/cardinfo
+%attr(644,root,root) /usr/share/pnp.ids
 
 %attr(644,root,root) %{_mandir}/man4/*
 %attr(644,root,root) %{_mandir}/man5/*
