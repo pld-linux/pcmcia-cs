@@ -4,7 +4,7 @@ Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
 Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.1.30
-%define	_rel	9
+%define	_rel	10
 Release:	%{_rel}
 License:	MPL
 Group:		Applications/System
@@ -159,7 +159,7 @@ fi
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
-%config %verify(not size mtime md5) /etc/sysconfig/pcmcia
+%config(noreplace) %verify(not size mtime md5) /etc/sysconfig/pcmcia
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/config.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ftl.opts
 %config %verify(not size mtime md5) %{_sysconfdir}/pcmcia/ide.opts
