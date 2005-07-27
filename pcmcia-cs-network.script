@@ -19,10 +19,10 @@ fi
 
 case "${action:?}" in
 'start')
-	/sbin/ifup ${device} boot
+	/sbin/ifup ${device} pcmcia-hotplug
     ;;
 'stop')
-	/sbin/ifdown ${device} boot
+	/sbin/ifdown ${device} pcmcia-hotplug
 	# to be always sure that device is down in case when it was
 	# configured and up and then iface configuration was deleted
 	ip link set ${device} down > /dev/null 2>&1
