@@ -1,6 +1,6 @@
 #
 # Conditional build:
-%bcond_without x11		# without X11-based utilities
+%bcond_without	x11		# without X11-based utilities
 #
 Summary:	Daemon and utilities for using PCMCIA adapters
 Summary(es):	Demonio y herramientas para usar adaptadores PCMCIA
