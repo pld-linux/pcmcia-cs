@@ -13,9 +13,6 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
-# Source networking configuration.
-. /etc/sysconfig/network
-
 # PCMCIA configuration
 . /etc/sysconfig/pcmcia
 
