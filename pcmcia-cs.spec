@@ -88,6 +88,17 @@ PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
 п╕дтримку р╕зноман╕тних PCMCIA-карт вс╕х вид╕в та демон, що дозволя╓
 п╕дключати та в╕дключати так╕ карти "на ходу".
 
+%package pnp
+Summary:	PNP tools from pcmcia-cs package
+Summary(pl):	NarzЙdzia PNP z pakietu pcmcia-cs
+Group:		Applications/System
+
+%description pnp
+PNP tools from pcmcia-cs package.
+
+%description pnp -l pl
+NarzЙdzia PNP z pakietu pcmcia-cs.
+
 %package X11
 Summary:	X11 Status Monitor
 Summary(es):	Monitor del estado para X11
@@ -136,6 +147,8 @@ HAS_GTK=y
 HAS_FORMS=y
 %endif
 CONFIG_INET=y
+CONFIG_PCI=y
+CONFIG_PNP_BIOS=y
 CONFIG_SCSI=y
 DO_IDE=y
 %ifnarch ppc
@@ -217,6 +230,8 @@ fi
 %doc LICENSE doc/PCMCIA-HOWTO doc/PCMCIA-PROG
 %dir /var/lib/pcmcia
 %attr(755,root,root) /sbin/*
+%exclude /sbin/lspnp
+%exclude /sbin/setpnp
 %attr(754,root,root) /etc/rc.d/init.d/pcmcia
 %config(noreplace) %verify(not md5 mtime size) /etc/sysconfig/pcmcia
 %dir %{_sysconfdir}/pcmcia
@@ -235,6 +250,15 @@ fi
 %{_sysconfdir}/pcmcia/network.orig
 %{_sysconfdir}/pcmcia/shared
 %{_mandir}/man*/*
+%exclude %{_mandir}/man8/lspnp.8*
+%exclude %{_mandir}/man8/setpnp.8*
+
+%files pnp
+%defattr(644,root,root,755)
+%attr(755,root,root) /sbin/lspnp
+%attr(755,root,root) /sbin/setpnp
+%{_mandir}/man8/lspnp.8*
+%{_mandir}/man8/setpnp.8*
 
 %if %{with x11}
 %files X11
