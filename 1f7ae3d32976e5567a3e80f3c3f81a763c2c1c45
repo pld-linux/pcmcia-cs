@@ -1,0 +1,3 @@
+- build with pnp and dump_cardbus
+- subpackage for pnp as doesn't require pcmcia-cs (those utils work with
+  pnpbioses <apm on/acpi off>)
