@@ -3,10 +3,10 @@
 %bcond_without	x11		# without X11-based utilities
 #
 Summary:	Daemon and utilities for using PCMCIA adapters
-Summary(es):	Demonio y herramientas para usar adaptadores PCMCIA
-Summary(pl):	ObsЁuga kart PCMCIA
-Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
-Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
+Summary(es.UTF-8):   Demonio y herramientas para usar adaptadores PCMCIA
+Summary(pl.UTF-8):   Obsе┌uga kart PCMCIA
+Summary(ru.UTF-8):   п■п╣п╪п╬п╫ п╦ я┐я┌п╦п╩п╦я┌я▀ п╢п╩я▐ п©п╬п╩я▄п╥п╬п╡п╟п╫п╦я▐ PCMCIA-п╟п╢п╟п©я┌п╣я─п╟п╪п╦
+Summary(uk.UTF-8):   п■п╣п╪п╬п╫ я┌п╟ я┐я┌п╦п╩я√я┌п╦ п╢п╩я▐ п╨п╬я─п╦я│я┌я┐п╡п╟п╫п╫я▐ PCMCIA-п╟п╢п╟п©я┌п╣я─п╟п╪п╦
 Name:		pcmcia-cs
 Version:	3.2.8
 Release:	7
@@ -48,61 +48,61 @@ card drivers) that come with another package that must be installed
 for full PCMCIA support. If you own a laptop or your system uses
 PCMCIA cards this package is a must.
 
-%description -l es
-El paquete pcmcia-cs aЯade el soporte de tarjetas PCMCIA a su sistema
+%description -l es.UTF-8
+El paquete pcmcia-cs aц╠ade el soporte de tarjetas PCMCIA a su sistema
 PLD-Linux y consiste de un demonio de manejador de tarjetas y unas
-herramientas. El demonio PCMCIA responde a los eventos de inserciСn y
-extracciСn cargando y descargando los drivers adecuados (con soporte
-de "hot swap") asМ, que las tarjetas se pueden insertar y extraer en
-cualquier momento. Este paquete no contiene mСdulos de nЗcleo, los que
-estАn incluidos en otro paquete que tiene que estar instalado para
-obtener soporte completo de PCMCIA. Si posee un portАtil o su sistema
-usa tarjetas PCMCIA, este paquete serА indispensable.
+herramientas. El demonio PCMCIA responde a los eventos de inserciцЁn y
+extracciцЁn cargando y descargando los drivers adecuados (con soporte
+de "hot swap") asц╜, que las tarjetas se pueden insertar y extraer en
+cualquier momento. Este paquete no contiene mцЁdulos de nц╨cleo, los que
+estц║n incluidos en otro paquete que tiene que estar instalado para
+obtener soporte completo de PCMCIA. Si posee un portц║til o su sistema
+usa tarjetas PCMCIA, este paquete serц║ indispensable.
 
-%description -l pl
-Pakiet pcmcia-cs zawiera programy wspieraj╠ce obsЁugЙ kart PCMCIA w
-Twoim PLD-Linuksie. SkЁada siЙ on z demona oraz kilku programСw
-narzЙdziowych. Demon ten potrafi reagowaФ na wkЁadanie i wyjmowanie
-kart PCMCIA, dodaj╠c i usuwaj╠c odpowiednie drivery (moduЁy kernela),
-tak i© karty mog╠ byФ wkЁadane i wyjmowane w dowolnym momencie. ModuЁy
-kernela obsЁuguj╠ce sloty kart i same karty zawarte s╠ w innych
-pakietach, ktСre musz╠ byФ zainstalowane aby mСc korzystaФ z kart.
-Je╤li posiadasz laptopa albo te© TwСj system wykorzystuje karty
-PCMCIA, ten pakiet bЙdzie Ci niezbЙdny.
+%description -l pl.UTF-8
+Pakiet pcmcia-cs zawiera programy wspierajд┘ce obsе┌ugд≥ kart PCMCIA w
+Twoim PLD-Linuksie. Skе┌ada siд≥ on z demona oraz kilku programцЁw
+narzд≥dziowych. Demon ten potrafi reagowaд┤ na wkе┌adanie i wyjmowanie
+kart PCMCIA, dodajд┘c i usuwajд┘c odpowiednie drivery (moduе┌y kernela),
+tak iе╪ karty mogд┘ byд┤ wkе┌adane i wyjmowane w dowolnym momencie. Moduе┌y
+kernela obsе┌ugujд┘ce sloty kart i same karty zawarte sд┘ w innych
+pakietach, ktцЁre muszд┘ byд┤ zainstalowane aby mцЁc korzystaд┤ z kart.
+Jeе⌡li posiadasz laptopa albo teе╪ TwцЁj system wykorzystuje karty
+PCMCIA, ten pakiet bд≥dzie Ci niezbд≥dny.
 
-%description -l ru
-Многие лаптопы, ноутбуки и другие машины поддерживают расширение при
-помощи PCMCIA-карт. Известные также как "credit card adapters",
-PCMCIA-карты - это маленькие карточки, включающие все, что угодно, от
-поддержки SCSI до модемов. Они довольно удобны тем, что могут быть
-подключены и отключены без перезагрузки машины. Настоящий пакет
-содержит поддержку разнообразных PCMCIA-карт всех разновидностей и
-демон, который позволяет подключать и отключать такие карты "на ходу".
+%description -l ru.UTF-8
+п°п╫п╬пЁп╦п╣ п╩п╟п©я┌п╬п©я▀, п╫п╬я┐я┌п╠я┐п╨п╦ п╦ п╢я─я┐пЁп╦п╣ п╪п╟я┬п╦п╫я▀ п©п╬п╢п╢п╣я─п╤п╦п╡п╟я▌я┌ я─п╟я│я┬п╦я─п╣п╫п╦п╣ п©я─п╦
+п©п╬п╪п╬я┴п╦ PCMCIA-п╨п╟я─я┌. п≤п╥п╡п╣я│я┌п╫я▀п╣ я┌п╟п╨п╤п╣ п╨п╟п╨ "credit card adapters",
+PCMCIA-п╨п╟я─я┌я▀ - я█я┌п╬ п╪п╟п╩п╣п╫я▄п╨п╦п╣ п╨п╟я─я┌п╬я┤п╨п╦, п╡п╨п╩я▌я┤п╟я▌я┴п╦п╣ п╡я│п╣, я┤я┌п╬ я┐пЁп╬п╢п╫п╬, п╬я┌
+п©п╬п╢п╢п╣я─п╤п╨п╦ SCSI п╢п╬ п╪п╬п╢п╣п╪п╬п╡. п·п╫п╦ п╢п╬п╡п╬п╩я▄п╫п╬ я┐п╢п╬п╠п╫я▀ я┌п╣п╪, я┤я┌п╬ п╪п╬пЁя┐я┌ п╠я▀я┌я▄
+п©п╬п╢п╨п╩я▌я┤п╣п╫я▀ п╦ п╬я┌п╨п╩я▌я┤п╣п╫я▀ п╠п╣п╥ п©п╣я─п╣п╥п╟пЁя─я┐п╥п╨п╦ п╪п╟я┬п╦п╫я▀. п²п╟я│я┌п╬я▐я┴п╦п╧ п©п╟п╨п╣я┌
+я│п╬п╢п╣я─п╤п╦я┌ п©п╬п╢п╢п╣я─п╤п╨я┐ я─п╟п╥п╫п╬п╬п╠я─п╟п╥п╫я▀я┘ PCMCIA-п╨п╟я─я┌ п╡я│п╣я┘ я─п╟п╥п╫п╬п╡п╦п╢п╫п╬я│я┌п╣п╧ п╦
+п╢п╣п╪п╬п╫, п╨п╬я┌п╬я─я▀п╧ п©п╬п╥п╡п╬п╩я▐п╣я┌ п©п╬п╢п╨п╩я▌я┤п╟я┌я▄ п╦ п╬я┌п╨п╩я▌я┤п╟я┌я▄ я┌п╟п╨п╦п╣ п╨п╟я─я┌я▀ "п╫п╟ я┘п╬п╢я┐".
 
-%description -l uk
-Багато лаптоп╕в, ноутбук╕в та ╕нших машин п╕дтримують розширення за
-допомогою PCMCIA-карт. В╕дом╕ також як "credit card adapters",
-PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
-п╕дтримки SCSI до модем╕в. Вони досить зручн╕ тим, що можуть бути
-п╕дключен╕ та в╕дключен╕ без перезагрузки машини. Цей пакет м╕стить
-п╕дтримку р╕зноман╕тних PCMCIA-карт вс╕х вид╕в та демон, що дозволя╓
-п╕дключати та в╕дключати так╕ карти "на ходу".
+%description -l uk.UTF-8
+п▒п╟пЁп╟я┌п╬ п╩п╟п©я┌п╬п©я√п╡, п╫п╬я┐я┌п╠я┐п╨я√п╡ я┌п╟ я√п╫я┬п╦я┘ п╪п╟я┬п╦п╫ п©я√п╢я┌я─п╦п╪я┐я▌я┌я▄ я─п╬п╥я┬п╦я─п╣п╫п╫я▐ п╥п╟
+п╢п╬п©п╬п╪п╬пЁп╬я▌ PCMCIA-п╨п╟я─я┌. п▓я√п╢п╬п╪я√ я┌п╟п╨п╬п╤ я▐п╨ "credit card adapters",
+PCMCIA-п╨п╟я─я┌п╦ - я├п╣ п╪п╟п╩п╣п╫я▄п╨я√ п╨п╟я─я┌п╬я┤п╨п╦, я┴п╬ п╪я√я│я┌я▐я┌я▄ я┴п╬ п╥п╟п╡пЁп╬п╢п╫п╬, п╡я√п╢
+п©я√п╢я┌я─п╦п╪п╨п╦ SCSI п╢п╬ п╪п╬п╢п╣п╪я√п╡. п▓п╬п╫п╦ п╢п╬я│п╦я┌я▄ п╥я─я┐я┤п╫я√ я┌п╦п╪, я┴п╬ п╪п╬п╤я┐я┌я▄ п╠я┐я┌п╦
+п©я√п╢п╨п╩я▌я┤п╣п╫я√ я┌п╟ п╡я√п╢п╨п╩я▌я┤п╣п╫я√ п╠п╣п╥ п©п╣я─п╣п╥п╟пЁя─я┐п╥п╨п╦ п╪п╟я┬п╦п╫п╦. п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄
+п©я√п╢я┌я─п╦п╪п╨я┐ я─я√п╥п╫п╬п╪п╟п╫я√я┌п╫п╦я┘ PCMCIA-п╨п╟я─я┌ п╡я│я√я┘ п╡п╦п╢я√п╡ я┌п╟ п╢п╣п╪п╬п╫, я┴п╬ п╢п╬п╥п╡п╬п╩я▐я■
+п©я√п╢п╨п╩я▌я┤п╟я┌п╦ я┌п╟ п╡я√п╢п╨п╩я▌я┤п╟я┌п╦ я┌п╟п╨я√ п╨п╟я─я┌п╦ "п╫п╟ я┘п╬п╢я┐".
 
 %package pnp
 Summary:	PNP tools from pcmcia-cs package
-Summary(pl):	NarzЙdzia PNP z pakietu pcmcia-cs
+Summary(pl.UTF-8):   Narzд≥dzia PNP z pakietu pcmcia-cs
 Group:		Applications/System
 
 %description pnp
 PNP tools from pcmcia-cs package.
 
-%description pnp -l pl
-NarzЙdzia PNP z pakietu pcmcia-cs.
+%description pnp -l pl.UTF-8
+Narzд≥dzia PNP z pakietu pcmcia-cs.
 
 %package X11
 Summary:	X11 Status Monitor
-Summary(es):	Monitor del estado para X11
-Summary(pl):	Monitor dla X11
+Summary(es.UTF-8):   Monitor del estado para X11
+Summary(pl.UTF-8):   Monitor dla X11
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	pcmcia-cs-cardinfo
@@ -110,10 +110,10 @@ Obsoletes:	pcmcia-cs-cardinfo
 %description X11
 X11 Monitor for PCMCIA.
 
-%description X11 -l es
+%description X11 -l es.UTF-8
 Monitador de PCMCIA para X11.
 
-%description X11 -l pl
+%description X11 -l pl.UTF-8
 Monitorowanie PCMCIA pod X Window.
 
 %prep
