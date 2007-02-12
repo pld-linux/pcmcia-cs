@@ -1,8 +1,8 @@
 %define	_rel	1
 Summary:	Daemon and utilities for using PCMCIA adapters
-Summary(pl):	ObsЁuga kart PCMCIA
-Summary(ru):	Демон и утилиты для пользования PCMCIA-адаптерами
-Summary(uk):	Демон та утил╕ти для користування PCMCIA-адаптерами
+Summary(pl.UTF-8):   Obsе┌uga kart PCMCIA
+Summary(ru.UTF-8):   п■п╣п╪п╬п╫ п╦ я┐я┌п╦п╩п╦я┌я▀ п╢п╩я▐ п©п╬п╩я▄п╥п╬п╡п╟п╫п╦я▐ PCMCIA-п╟п╢п╟п©я┌п╣я─п╟п╪п╦
+Summary(uk.UTF-8):   п■п╣п╪п╬п╫ я┌п╟ я┐я┌п╦п╩я√я┌п╦ п╢п╩я▐ п╨п╬я─п╦я│я┌я┐п╡п╟п╫п╫я▐ PCMCIA-п╟п╢п╟п©я┌п╣я─п╟п╪п╦
 Name:		pcmcia-cs
 Version:	3.2.3
 Release:	%{_rel}
@@ -42,38 +42,38 @@ card drivers) that come with another package that must be installed
 for full PCMCIA support. If you own a laptop or your system uses
 PCMCIA cards this package is a must.
 
-%description -l pl
-Pakiet pcmcia-cs zawiera programy wspieraj╠ce obsЁugЙ kart PCMCIA w
-Twoim PLD-Linuksie. SkЁada siЙ on z demona oraz kilku programСw
-narzЙdziowych. Demon ten potrafi reagowaФ na wkЁadanie i wyjmowanie
-kart PCMCIA, dodaj╠c i usuwaj╠c odpowiednie drivery (moduЁy kernela),
-tak i© karty mog╠ byФ wkЁadane i wyjmowane w dowolnym momencie. ModuЁy
-kernela obsЁuguj╠ce sloty kart i same karty zawarte s╠ w innych
-pakietach, ktСre musz╠ byФ zainstalowane aby mСc korzystaФ z kart.
-Je╤li posiadasz laptopa albo te© TwСj system wykorzystuje karty
-PCMCIA, ten pakiet bЙdzie Ci niezbЙdny.
+%description -l pl.UTF-8
+Pakiet pcmcia-cs zawiera programy wspierajд┘ce obsе┌ugд≥ kart PCMCIA w
+Twoim PLD-Linuksie. Skе┌ada siд≥ on z demona oraz kilku programцЁw
+narzд≥dziowych. Demon ten potrafi reagowaд┤ na wkе┌adanie i wyjmowanie
+kart PCMCIA, dodajд┘c i usuwajд┘c odpowiednie drivery (moduе┌y kernela),
+tak iе╪ karty mogд┘ byд┤ wkе┌adane i wyjmowane w dowolnym momencie. Moduе┌y
+kernela obsе┌ugujд┘ce sloty kart i same karty zawarte sд┘ w innych
+pakietach, ktцЁre muszд┘ byд┤ zainstalowane aby mцЁc korzystaд┤ z kart.
+Jeе⌡li posiadasz laptopa albo teе╪ TwцЁj system wykorzystuje karty
+PCMCIA, ten pakiet bд≥dzie Ci niezbд≥dny.
 
-%description -l ru
-Многие лаптопы, ноутбуки и другие машины поддерживают расширение при
-помощи PCMCIA-карт. Известные также как "credit card adapters",
-PCMCIA-карты - это маленькие карточки, включающие все, что угодно, от
-поддержки SCSI до модемов. Они довольно удобны тем, что могут быть
-подключены и отключены без перезагрузки машины. Настоящий пакет
-содержит поддержку разнообразных PCMCIA-карт всех разновидностей и
-демон, который позволяет подключать и отключать такие карты "на ходу".
+%description -l ru.UTF-8
+п°п╫п╬пЁп╦п╣ п╩п╟п©я┌п╬п©я▀, п╫п╬я┐я┌п╠я┐п╨п╦ п╦ п╢я─я┐пЁп╦п╣ п╪п╟я┬п╦п╫я▀ п©п╬п╢п╢п╣я─п╤п╦п╡п╟я▌я┌ я─п╟я│я┬п╦я─п╣п╫п╦п╣ п©я─п╦
+п©п╬п╪п╬я┴п╦ PCMCIA-п╨п╟я─я┌. п≤п╥п╡п╣я│я┌п╫я▀п╣ я┌п╟п╨п╤п╣ п╨п╟п╨ "credit card adapters",
+PCMCIA-п╨п╟я─я┌я▀ - я█я┌п╬ п╪п╟п╩п╣п╫я▄п╨п╦п╣ п╨п╟я─я┌п╬я┤п╨п╦, п╡п╨п╩я▌я┤п╟я▌я┴п╦п╣ п╡я│п╣, я┤я┌п╬ я┐пЁп╬п╢п╫п╬, п╬я┌
+п©п╬п╢п╢п╣я─п╤п╨п╦ SCSI п╢п╬ п╪п╬п╢п╣п╪п╬п╡. п·п╫п╦ п╢п╬п╡п╬п╩я▄п╫п╬ я┐п╢п╬п╠п╫я▀ я┌п╣п╪, я┤я┌п╬ п╪п╬пЁя┐я┌ п╠я▀я┌я▄
+п©п╬п╢п╨п╩я▌я┤п╣п╫я▀ п╦ п╬я┌п╨п╩я▌я┤п╣п╫я▀ п╠п╣п╥ п©п╣я─п╣п╥п╟пЁя─я┐п╥п╨п╦ п╪п╟я┬п╦п╫я▀. п²п╟я│я┌п╬я▐я┴п╦п╧ п©п╟п╨п╣я┌
+я│п╬п╢п╣я─п╤п╦я┌ п©п╬п╢п╢п╣я─п╤п╨я┐ я─п╟п╥п╫п╬п╬п╠я─п╟п╥п╫я▀я┘ PCMCIA-п╨п╟я─я┌ п╡я│п╣я┘ я─п╟п╥п╫п╬п╡п╦п╢п╫п╬я│я┌п╣п╧ п╦
+п╢п╣п╪п╬п╫, п╨п╬я┌п╬я─я▀п╧ п©п╬п╥п╡п╬п╩я▐п╣я┌ п©п╬п╢п╨п╩я▌я┤п╟я┌я▄ п╦ п╬я┌п╨п╩я▌я┤п╟я┌я▄ я┌п╟п╨п╦п╣ п╨п╟я─я┌я▀ "п╫п╟ я┘п╬п╢я┐".
 
-%description -l uk
-Багато лаптоп╕в, ноутбук╕в та ╕нших машин п╕дтримують розширення за
-допомогою PCMCIA-карт. В╕дом╕ також як "credit card adapters",
-PCMCIA-карти - це маленьк╕ карточки, що м╕стять що завгодно, в╕д
-п╕дтримки SCSI до модем╕в. Вони досить зручн╕ тим, що можуть бути
-п╕дключен╕ та в╕дключен╕ без перезагрузки машини. Цей пакет м╕стить
-п╕дтримку р╕зноман╕тних PCMCIA-карт вс╕х вид╕в та демон, що дозволя╓
-п╕дключати та в╕дключати так╕ карти "на ходу".
+%description -l uk.UTF-8
+п▒п╟пЁп╟я┌п╬ п╩п╟п©я┌п╬п©я√п╡, п╫п╬я┐я┌п╠я┐п╨я√п╡ я┌п╟ я√п╫я┬п╦я┘ п╪п╟я┬п╦п╫ п©я√п╢я┌я─п╦п╪я┐я▌я┌я▄ я─п╬п╥я┬п╦я─п╣п╫п╫я▐ п╥п╟
+п╢п╬п©п╬п╪п╬пЁп╬я▌ PCMCIA-п╨п╟я─я┌. п▓я√п╢п╬п╪я√ я┌п╟п╨п╬п╤ я▐п╨ "credit card adapters",
+PCMCIA-п╨п╟я─я┌п╦ - я├п╣ п╪п╟п╩п╣п╫я▄п╨я√ п╨п╟я─я┌п╬я┤п╨п╦, я┴п╬ п╪я√я│я┌я▐я┌я▄ я┴п╬ п╥п╟п╡пЁп╬п╢п╫п╬, п╡я√п╢
+п©я√п╢я┌я─п╦п╪п╨п╦ SCSI п╢п╬ п╪п╬п╢п╣п╪я√п╡. п▓п╬п╫п╦ п╢п╬я│п╦я┌я▄ п╥я─я┐я┤п╫я√ я┌п╦п╪, я┴п╬ п╪п╬п╤я┐я┌я▄ п╠я┐я┌п╦
+п©я√п╢п╨п╩я▌я┤п╣п╫я√ я┌п╟ п╡я√п╢п╨п╩я▌я┤п╣п╫я√ п╠п╣п╥ п©п╣я─п╣п╥п╟пЁя─я┐п╥п╨п╦ п╪п╟я┬п╦п╫п╦. п╕п╣п╧ п©п╟п╨п╣я┌ п╪я√я│я┌п╦я┌я▄
+п©я√п╢я┌я─п╦п╪п╨я┐ я─я√п╥п╫п╬п╪п╟п╫я√я┌п╫п╦я┘ PCMCIA-п╨п╟я─я┌ п╡я│я√я┘ п╡п╦п╢я√п╡ я┌п╟ п╢п╣п╪п╬п╫, я┴п╬ п╢п╬п╥п╡п╬п╩я▐я■
+п©я√п╢п╨п╩я▌я┤п╟я┌п╦ я┌п╟ п╡я√п╢п╨п╩я▌я┤п╟я┌п╦ я┌п╟п╨я√ п╨п╟я─я┌п╦ "п╫п╟ я┘п╬п╢я┐".
 
 %package -n kernel-pcmcia-wavelan2
 Summary:	Avaya Wireless PC Card - Drivers
-Summary(pl):	Bezprzewodowe karty PC firmy Avaya - Sterowniki
+Summary(pl.UTF-8):   Bezprzewodowe karty PC firmy Avaya - Sterowniki
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Prereq:		/sbin/depmod
@@ -82,13 +82,13 @@ Prereq:		/sbin/depmod
 %description -n kernel-pcmcia-wavelan2
 wavelan2 driver for Avaya Wireless PC Card (Silver and Gold).
 
-%description -n kernel-pcmcia-wavelan2 -l pl
+%description -n kernel-pcmcia-wavelan2 -l pl.UTF-8
 Sterownik wavelan2 do kart Bezprzewodowych PC firmy Avaya (modele
 Silver oraz Gold).
 
 %package X11
 Summary:	X11 Status Monitor
-Summary(pl):	Monitor dla X11
+Summary(pl.UTF-8):   Monitor dla X11
 Release:	%{_rel}
 Group:		X11/Applications
 
