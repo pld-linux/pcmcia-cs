@@ -3,10 +3,10 @@
 %bcond_without	x11		# without X11-based utilities
 #
 Summary:	Daemon and utilities for using PCMCIA adapters
-Summary(es.UTF-8):   Demonio y herramientas para usar adaptadores PCMCIA
-Summary(pl.UTF-8):   Obsługa kart PCMCIA
-Summary(ru.UTF-8):   Демон и утилиты для пользования PCMCIA-адаптерами
-Summary(uk.UTF-8):   Демон та утиліти для користування PCMCIA-адаптерами
+Summary(es.UTF-8):	Demonio y herramientas para usar adaptadores PCMCIA
+Summary(pl.UTF-8):	Obsługa kart PCMCIA
+Summary(ru.UTF-8):	Демон и утилиты для пользования PCMCIA-адаптерами
+Summary(uk.UTF-8):	Демон та утиліти для користування PCMCIA-адаптерами
 Name:		pcmcia-cs
 Version:	3.2.8
 Release:	7
@@ -90,7 +90,7 @@ PCMCIA-карти - це маленькі карточки, що містять 
 
 %package pnp
 Summary:	PNP tools from pcmcia-cs package
-Summary(pl.UTF-8):   Narzędzia PNP z pakietu pcmcia-cs
+Summary(pl.UTF-8):	Narzędzia PNP z pakietu pcmcia-cs
 Group:		Applications/System
 
 %description pnp
@@ -101,8 +101,8 @@ Narzędzia PNP z pakietu pcmcia-cs.
 
 %package X11
 Summary:	X11 Status Monitor
-Summary(es.UTF-8):   Monitor del estado para X11
-Summary(pl.UTF-8):   Monitor dla X11
+Summary(es.UTF-8):	Monitor del estado para X11
+Summary(pl.UTF-8):	Monitor dla X11
 Group:		X11/Applications
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	pcmcia-cs-cardinfo
