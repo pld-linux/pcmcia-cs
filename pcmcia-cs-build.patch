@@ -34,3 +34,27 @@ diff -urN pcmcia-cs-3.2.7.orig/Makefile pcmcia-cs-3.2.7/Makefile
  	@for f in *.mk ; do \
  	    if [ $$f != config.mk -a $$f != rules.mk ] ; then \
 
+diff -urN pcmcia-cs-3.2.8.org/debug-tools/lspnp.c pcmcia-cs-3.2.8/debug-tools/lspnp.c
+--- pcmcia-cs-3.2.8.org/debug-tools/lspnp.c	2002-02-13 06:45:01.000000000 +0100
++++ pcmcia-cs-3.2.8/debug-tools/lspnp.c	2007-06-02 23:10:54.005547363 +0200
+@@ -496,7 +496,7 @@
+ 		dump_io_fixed(r); break;
+ 	    }
+ 	}
+-	(u_char *)p += sz + 1;
++	p += sz + 1;
+     }
+     return (u_char *)p;
+ }
+diff -ur pcmcia-cs-3.2.8.org/debug-tools/setpnp.c pcmcia-cs-3.2.8/debug-tools/setpnp.c
+--- pcmcia-cs-3.2.8.org/debug-tools/setpnp.c	2001-10-10 04:58:12.000000000 +0200
++++ pcmcia-cs-3.2.8/debug-tools/setpnp.c	2007-06-02 23:11:44.627978621 +0200
+@@ -163,7 +163,7 @@
+ 		break;
+ 	    }
+ 	}
+-	(u_char *)p += sz + 1;
++	p += sz + 1;
+     }
+     return (u_char *)p;
+ }
